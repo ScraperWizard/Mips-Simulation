@@ -1,4 +1,6 @@
-package DataPath;
+package DataPath.Wire;
+
+import DataPath.DataPathComponent;
 
 // This is a wire that connects to components
 public class Wire {
@@ -6,7 +8,7 @@ public class Wire {
     private int length;
     private DataPathComponent inputComponent;
     private DataPathComponent outputComponent;
-    public Wire(byte[] data, DataPathComponent inputComponent, DataPathComponent outputComponent) {
+    public Wire(byte[] data) {
         this.data = data;
         this.length = 32;
         this.inputComponent = inputComponent;
@@ -21,6 +23,14 @@ public class Wire {
 
     public void setData(byte[] data) {
         this.data = data;
+    }
+
+    public void connectFrom(DataPathComponent component) {
+        this.inputComponent = component;
+    }
+
+    public void connectTo(DataPathComponent component) {
+        this.inputComponent = component;
     }
 
     public String getDataAsHex() {
