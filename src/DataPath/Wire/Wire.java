@@ -11,8 +11,6 @@ public class Wire {
     public Wire(byte[] data) {
         this.data = data;
         this.length = 32;
-        this.inputComponent = inputComponent;
-        this.outputComponent = outputComponent;
     }
 
     public int getLength() {
