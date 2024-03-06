@@ -29,4 +29,6 @@ public class ControlUnit {
         } else if (OPCODE == 000000 || OPCODE == 0) {
         }
     }
+    Multiplexer PCSrcMUX = new Multiplexer("PCSrc", Branch);
+    Multiplexer MemToRegMUX = new Multiplexer("MemToReg", MemToReg);
 }
