@@ -1,21 +1,11 @@
 package Compiler;
 
-import java.nio.ByteBuffer;
-
 public class InstructionAdapter {
+    public static MipsIntruction adaptIType(String opcode, String operation, String immediate) {
+        return new ItypeInstruction();
+    }
 
+    public static MipsIntruction adaptRType(String opcode, String operation, String register) {
+        return new RtypeInstruction();
+    }
 }
-
-//public class Instruction {
-//    private byte[] opCode;
-//
-//    public byte[] getOpCode() {
-//        return opCode;
-//    }
-//
-//    public int getOpcode() {
-//        ByteBuffer buffer = ByteBuffer.wrap(opCode);
-//        return buffer.getInt();
-//    }
-//}
-

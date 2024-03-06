@@ -1,2 +1,5 @@
-package Compiler;public class ItypeInstruction {
+package Compiler;
+
+public class ItypeInstruction extends MipsIntruction {
+
 }

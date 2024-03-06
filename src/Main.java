@@ -1,19 +1,26 @@
 import Components.Multiplexer;
 import Components.ProgramCounter;
 import DataPath.DataPath;
-import DataPath.Wire.Wire;
+import Compiler.Compiler;
+import Compiler.InstructionParser;
+import Compiler.MipsIntruction;
 
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Hello, welcome to our MIPS assembly compiler. Please check the manual on how to compile your code");
-        System.out.println("Please enter one single instruction");
+        DataPath dataPath = buildDataPath();
+        String addCommand = "add $s1, $t2, $t3";
+        Compiler mipsCompiler = new Compiler();
+        InstructionParser mipsInstructionParser = new InstructionParser(addCommand, mipsCompiler);
+        MipsIntruction instructionToStart = mipsInstructionParser.parse();
+
+        System.out.println("Your instruction is valid");
     }
 
-    public DataPath buildDataPath() { // This method should build all of the components,wires of a datapath
-        //
+    public static DataPath buildDataPath() { // This method should build all of the components,wires of a datapath
+        // Initialize program counter, mux
         ProgramCounter programCounter = new ProgramCounter();
         Multiplexer mux1 = new Multiplexer("PCsrc");
-        Wire muxToProgramCounter = new Wire(new byte[32]);
+
 
         return new DataPath(); // TODO not real implementation
     }

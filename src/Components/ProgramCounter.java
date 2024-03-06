@@ -1,8 +1,6 @@
 package Components;
 
-import DataPath.DataPathComponent;
-
-public class ProgramCounter extends DataPathComponent {
+public class ProgramCounter {
     private int counter;
 
     public ProgramCounter() {

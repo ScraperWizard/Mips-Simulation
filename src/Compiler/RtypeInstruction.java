@@ -1,2 +1,5 @@
-package Compiler;public class RtypeInstruction {
+package Compiler;
+
+public class RtypeInstruction extends MipsIntruction {
+
 }
