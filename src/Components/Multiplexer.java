@@ -9,29 +9,38 @@ public class Multiplexer {
     int input2;
     int output;
 
-    public Multiplexer(String humanNickname, int controlUnit, int input1, int input2) {
+    public Multiplexer(int controlUnit){
+        this.controlUnit = controlUnit;
+    }
+
+    public Multiplexer(String humanNickname) {
+        this.humanNickname = humanNickname;
+    }
+    public Multiplexer(String humanNickname, int controlUnit) {
         this.humanNickname = humanNickname;
         this.controlUnit = controlUnit;
-        this.input1 = input1;
-        this.input2 = input2;
+        MUXDecider ();
     }
 
     public void MUXDecider (){
         if(humanNickname.equalsIgnoreCase("PCSrc")){
             System.out.println("I chose PCSrc, because I recieved PCSrc as human nickname");
-            PCSrcMUX(controlUnit, input1, input2);
+            PCSrcMUX();
         }
     }
 
     // PSCrcMUX
-    public void PCSrcMUX (int controlUnit, int input1, int input2){
+    public int PCSrcMUX (){
         UpperAdd upperAdd = new UpperAdd();
         Adder adder = new Adder();
         if(controlUnit == 0){
+            System.out.println("My address is the incremented address because Control Unit == 0");
             output = adder.incrementedAddress();
         }
         else if (controlUnit == 1){
+            System.out.println("My address is the UpperAdd ALURes address because Control Unit == 1");
             output = upperAdd.UpperAddOperation();
         }
+        return output;
     }
 }

@@ -13,7 +13,6 @@ public class Compiler {
 
     public HashMap<String, Integer> getOpCodeMap() {
         HashMap<String, Integer> OpCodesMap = new HashMap<String, Integer>();
-
         return OpCodesMap;
     }
 }
