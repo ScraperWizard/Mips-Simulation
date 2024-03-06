@@ -19,7 +19,7 @@ public class Main {
     public static DataPath buildDataPath() { // This method should build all of the components,wires of a datapath
         // Initialize program counter, mux
         ProgramCounter programCounter = new ProgramCounter();
-        Multiplexer mux1 = new Multiplexer("PCsrc");
+//        Multiplexer mux1 = new Multiplexer("PCsrc");
 
 
         return new DataPath(); // TODO not real implementation

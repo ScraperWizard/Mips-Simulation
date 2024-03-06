@@ -1,13 +1,13 @@
 package Compiler.Address;
 
 public class Address {
-    private String addressId;
+    private int addressId;
     private String value;
-    public Address(String addressId) {
+    public Address(int addressId) {
         this.addressId = addressId;
     }
 
-    public String getAddressId() {
+    public int getAddressId() {
         return addressId;
     }
 
