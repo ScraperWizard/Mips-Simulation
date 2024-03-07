@@ -7,13 +7,13 @@ public class Multiplexer {
     int controlUnit;
     int AddressDestination;
 
-    public Multiplexer(int controlUnit){
+/*    public Multiplexer(int controlUnit){
         this.controlUnit = controlUnit;
     }
 
     public Multiplexer(String humanNickname) {
         this.humanNickname = humanNickname;
-    }
+    } */
     //PCSrcMUX
     public Multiplexer(String humanNickname, AndGate andGate, UpperAdd givenUpperAdd, Adder givenAdder) {
         this.humanNickname = humanNickname;

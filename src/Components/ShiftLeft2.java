@@ -2,9 +2,6 @@ package Components;
 
 public class ShiftLeft2 {
     int bit32FromSignExtend;
-
-    ShiftLeft2(){}
-
     public ShiftLeft2 (int given32bit){
         bit32FromSignExtend = given32bit;
     }
