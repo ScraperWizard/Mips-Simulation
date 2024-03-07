@@ -10,5 +10,4 @@ public class UpperAdd {
         ALUResult = shiftLeft2.shiftLeftBy2() + adder.incrementedAddress();
         return ALUResult;
     }
-
 }

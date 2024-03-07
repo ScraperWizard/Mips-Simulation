@@ -25,7 +25,7 @@ public class ControlUnit {
             MemRead = 0;
             MemWrite = 0;
             Branch = 0;
-            ALUOp = idk;
+            // ALUOp = idk;
         } else if (OPCODE == 000000 || OPCODE == 0) {
         }
     }

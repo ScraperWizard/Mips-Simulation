@@ -1,20 +1,27 @@
 package Compiler;
 
+import Compiler.Address.AddressProvider;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import Compiler.Address.Address;
+import java.util.regex.*;
 
 // TODO currently this class does not validate $zero and other specific edge cases handeling of syntax errors
 public class InstructionParser {
     String instruction;
     Compiler compiler;
     ArrayList<String> registers;
-    public InstructionParser(String instruction, Compiler compiler) {
+    AddressProvider addressProvider;
+    public InstructionParser(String instruction, Compiler compiler, AddressProvider addressProvider) {
         this.instruction = instruction;
         this.compiler = compiler;
         this.registers = new ArrayList<String>();
+        this.addressProvider = addressProvider;
     }
 
-    public MipsIntruction parse() {
+    public MipsInstruction parse() {
         if(!validateInstructionKeyword()) {
             throw new IllegalArgumentException("Invalid MIPS instruction keyword " + this.parseKeyword());
         }
@@ -24,26 +31,39 @@ public class InstructionParser {
         }
 
         InstructionType typeOfInstruction = this.getInstructionType();
+        String[] registersInInstruction = this.parseRegisters();
         int opCodeOfInstruction = this.getInstructionOpCode();
 
-        return new MipsIntruction() {
-            @Override
-            public byte[] getOpCode() {
-                return super.getOpCode();
-            }
+        System.out.println(typeOfInstruction);
+
+        if(typeOfInstruction == InstructionType.Rtype) {
+            System.out.println(Arrays.toString(registersInInstruction));
+            Address sourceAddress = addressProvider.getAddressByHumanName(registersInInstruction[0]);
+            Address targetAddress = addressProvider.getAddressByHumanName(registersInInstruction[1]);
+            Address destinationAddress = addressProvider.getAddressByHumanName(registersInInstruction[2]);
+            int functionCodeOfInstruction = this.getInstructionFunctionCode();
+
+            return new RTypeMipsInstruction(opCodeOfInstruction, sourceAddress, targetAddress, destinationAddress, 0, functionCodeOfInstruction);
+        } else if(typeOfInstruction == InstructionType.Itype) {
+            return new ITypeMipsInstruction();
         };
+
+        throw new IllegalArgumentException("Unsupported mips instruction type");
     }
 
     private int getInstructionOpCode() {
-        HashMap<String, Integer> OpCodesMap = new HashMap<String, Integer>();
+        return this.compiler.getOpCodeByCommandName(this.parseKeyword());
+    }
 
-        return 0;
+    private int getInstructionFunctionCode() {
+        return this.compiler.getFunctionCodeByCommandName(this.parseKeyword());
     }
 
     private InstructionType getInstructionType() {
-        if(this.registers.size() == 1) {
+        String type = this.compiler.getTypeByCommandName(this.parseKeyword());
+        if(type.equals("I")) {
             return InstructionType.Itype;
-        } else if(this.registers.size() == 2) {
+        } else if(type.equals("R")) {
             return InstructionType.Rtype;
         } else {
             return InstructionType.Jtype;
@@ -70,33 +90,16 @@ public class InstructionParser {
     }
 
     private boolean validateRegister(String register) {
-        if(!register.contains("$") || register.contains(" ")) {
-            return false;
-        }
+        boolean result = false;
+        Address[] addresses = this.addressProvider.getAddressArray();
 
-        String[] parsedRegister = register.split("");
-        String[] allowedLetters = new String[]{"s", "t", "r", "zero"};
-        String[] allowedNumbersOrSpecialCharacters = new String[]{"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "p"};
-        if(!parsedRegister[0].equals("$")) {
-            return false;
-        }
-
-        boolean checkIfAllowedLetter = false;
-        boolean checkIfAllowedNumber = false;
-
-        for(int i = 0; i < allowedLetters.length; i++) {
-            if(parsedRegister[1].equals(allowedLetters[i])) {
-                checkIfAllowedLetter = true;
+        for(int i = 0; i < addresses.length; i++) {
+            if(addresses[i].getAddressHumanName().equals(register)) {
+                result = true;
             }
         }
 
-        for(int i = 0; i < allowedNumbersOrSpecialCharacters.length; i++) {
-            if(parsedRegister[2].equals(allowedNumbersOrSpecialCharacters[i])) {
-                checkIfAllowedNumber = true;
-            }
-        }
-
-        return checkIfAllowedLetter && checkIfAllowedNumber;
+        return result;
     }
 
     private boolean validateRegisters(String[] registers) {
@@ -114,19 +117,18 @@ public class InstructionParser {
     }
 
     private String[] parseRegisters() {
-        String[] registers = new String[2];
-        String[] parsedInstruction = instruction.split("\\s+");
+        ArrayList<String> registersList = new ArrayList<>();
+        String regex = "\\$([\\w\\d]+)";
 
-        // Assuming the MIPS assembly instruction has the format: opcode $reg1, $reg2, ...
-        if (parsedInstruction.length >= 4 && parsedInstruction[0].equalsIgnoreCase("add")) {
-            registers[0] = parsedInstruction[1].replace(",", ""); // Removing the comma
-            registers[1] = parsedInstruction[3];
-        } else if (parsedInstruction.length >= 3 && parsedInstruction[0].equalsIgnoreCase("sw")) {
-            registers[0] = parsedInstruction[1].replace(",", ""); // Removing the comma
-            registers[1] = parsedInstruction[2];
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(this.instruction);
+
+        while (matcher.find()) {
+            String register = matcher.group(1);
+            registersList.add("$" + register);
         }
 
-        return registers;
+        return registersList.toArray(new String[0]);
     }
 
     private boolean validateInstructionKeyword() {
