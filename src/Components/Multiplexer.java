@@ -5,9 +5,7 @@ public class Multiplexer {
 
     private String humanNickname;// PCSrcMUX, MemToRegMUX, ALUSrcMUX, RegDstMUX --> Agreed MUXS names
     int controlUnit;
-    int input1;
-    int input2;
-    int output;
+    int AddressDestination;
 
     public Multiplexer(int controlUnit){
         this.controlUnit = controlUnit;
@@ -16,31 +14,31 @@ public class Multiplexer {
     public Multiplexer(String humanNickname) {
         this.humanNickname = humanNickname;
     }
-    public Multiplexer(String humanNickname, int controlUnit) {
+    //PCSrcMUX
+    public Multiplexer(String humanNickname, AndGate andGate, UpperAdd givenUpperAdd, Adder givenAdder) {
         this.humanNickname = humanNickname;
-        this.controlUnit = controlUnit;
-        MUXDecider ();
+        this.controlUnit = andGate.controlUnitForPCSrc;
+        MUXDecider(givenUpperAdd, givenAdder);
     }
 
-    public void MUXDecider (){
+    private void MUXDecider (UpperAdd givenUpperAdd, Adder givenAdder){
         if(humanNickname.equalsIgnoreCase("PCSrc")){
-            System.out.println("I chose PCSrc, because I recieved PCSrc as human nickname");
-            PCSrcMUX();
+            System.out.println("I chose PCSrc, because I received PCSrc as human nickname");
+            PCSrcMUX(givenUpperAdd, givenAdder);
         }
     }
 
     // PSCrcMUX
-    public int PCSrcMUX (){
-        UpperAdd upperAdd = new UpperAdd();
-        Adder adder = new Adder();
+    private int PCSrcMUX (UpperAdd givenUpperAdd, Adder givenAdder){
+
         if(controlUnit == 0){
             System.out.println("My address is the incremented address because Control Unit == 0");
-            output = adder.incrementedAddress();
+            AddressDestination = givenAdder.incrementedAddress();
         }
         else if (controlUnit == 1){
             System.out.println("My address is the UpperAdd ALURes address because Control Unit == 1");
-            output = upperAdd.UpperAddOperation();
+            AddressDestination = givenUpperAdd.ALUResult;
         }
-        return output;
+        return AddressDestination;
     }
 }
