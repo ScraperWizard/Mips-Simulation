@@ -26,4 +26,14 @@ public class AddressProvider {
     public Address getAddressById(int id) {
         return this.addressArray[id * 4];
     }
+
+    public Address getAddressByHumanName(String name) {
+        for(int i = 0; i < this.addressArray.length; i+=4) {
+            if(this.addressArray[i].getAddressHumanName().equals(name)) {
+                return this.addressArray[i];
+            }
+        }
+        
+        return null;
+    }
 }
