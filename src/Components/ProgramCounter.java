@@ -1,17 +1,15 @@
 package Components;
 
+import Compiler.Address.Address;
+import Compiler.Address.AddressProvider;
+
 public class ProgramCounter {
-    private int counter;
-
-    public ProgramCounter() {
-        this.counter = 0;
+    Address address;
+    AddressProvider addressProvider;
+    ProgramCounter(Address address, AddressProvider addressProvider){
+     this.address = address;
+     this.addressProvider = addressProvider;
     }
 
-    public void increment() {
-        counter++;
-    }
 
-    public int getCounter() {
-        return counter;
-    }
 }
