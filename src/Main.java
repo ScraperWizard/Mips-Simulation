@@ -12,21 +12,6 @@ import Compiler.RTypeMipsInstruction;
 
 public class Main {
     public static void main(String[] args) {
-
-        // I wanna be able to pass in the add command, and get back a decoded form of the command
-        // which has op code, rs, rt, rd, shamt etc.
-        // And from there it gets passed on to the data path
-
-        // First of all have mipsInstruction class that would be compatible
-        // Second of all a JSON file which has each command type
-        // Third of all parser loads that in
-        // Return deconstructed mipsInstruction
-
-        // Stage 2:
-        // Pass that into the data path event loop
-        // Data path would start running and processing everything
-
-
         DataPath dataPath = buildDataPath();
         String addCommand = "add $s1, $t2, $t3";
         Compiler mipsCompiler = new Compiler();

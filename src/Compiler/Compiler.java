@@ -19,7 +19,13 @@ public class Compiler {
     }
 
     public String[] getValidKeyWordInstructions() {
-        return new String[]{"add", "addi", "lw", "sw", "sll", "and", "andi", "or", "ori", "nor", "beq", "j", "jal", "jr", "slt"};
+        String[] output = new String[commands.size()];
+
+        for(int i = 0; i < commands.size(); i++) {
+            output[i] = commands.get(i).getName();
+        }
+
+        return output;
     }
 
     public HashMap<String, Integer> getOpCodeMap() {
