@@ -5,7 +5,7 @@ public class Multiplexer {
 
     private String humanNickname;// PCSrcMUX, MemToRegMUX, ALUSrcMUX, RegDstMUX --> Agreed MUXS names
     int controlUnit;
-    int AddressDestination;
+    int AddressDestination; // Output
 
 /*    public Multiplexer(int controlUnit){
         this.controlUnit = controlUnit;
