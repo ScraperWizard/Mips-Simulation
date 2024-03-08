@@ -1,4 +1,6 @@
 import Compiler.Address.Address;
+import Components.AndGate;
+import Components.ControlUnit;
 import Components.Multiplexer;
 import Components.ProgramCounter;
 import DataPath.DataPath;
@@ -20,6 +22,9 @@ public class Main {
         InstructionParser mipsInstructionParser = new InstructionParser(addCommand, mipsCompiler, addressProvider);
         MipsInstruction instructionToTest = mipsInstructionParser.parse();
 
+        ControlUnit controlUnit = new ControlUnit(instructionToTest.getOpCode()); //Test
+//        AndGate andGate = new AndGate();
+
         if(instructionToTest instanceof RTypeMipsInstruction) {
             RTypeMipsInstruction rTypeInstruction = (RTypeMipsInstruction) instructionToTest;
             System.out.println("Decoded command: opCode=" + rTypeInstruction.getOpCode()
@@ -37,7 +42,7 @@ public class Main {
 
     public static DataPath buildDataPath() { // This method should build all of the components,wires of a datapath
         // Initialize program counter, mux
-        ProgramCounter programCounter = new ProgramCounter();
+//        ProgramCounter programCounter = new ProgramCounter();
 //        Multiplexer mux1 = new Multiplexer("PCsrc");
 
         return new DataPath(); // TODO not real implementation

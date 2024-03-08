@@ -11,7 +11,7 @@ public class ControlUnit {
     int ALUSrc;
     int RegWrite;
 
-    ControlUnit(int OPCODE) {
+    public ControlUnit(int OPCODE) {
         this.OPCODE = OPCODE;
         controlUnitDecider();
     }
