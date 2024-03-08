@@ -1,16 +1,16 @@
 package Compiler;
 
-import Compiler.Address.Address;
+import Compiler.Register.Register;
 
 public class RTypeMipsInstruction extends MipsInstruction {
     private int opCode;
-    private Address sourceAddress;
-    private Address targetAddress;
-    private Address destinationAddress; // rd in R-type instructions
+    private Register sourceAddress;
+    private Register targetAddress;
+    private Register destinationAddress; // rd in R-type instructions
     private int shamt;
     private int functionCode;
 
-    public RTypeMipsInstruction(int opCode, Address rs, Address rt, Address rd, int shamt, int functionCode) {
+    public RTypeMipsInstruction(int opCode, Register rs, Register rt, Register rd, int shamt, int functionCode) {
         this.opCode = opCode;
         this.sourceAddress = rs;
         this.targetAddress = rt;
@@ -20,16 +20,16 @@ public class RTypeMipsInstruction extends MipsInstruction {
     }
 
     @Override
-    public Address getTargetAddress() {
+    public Register getTargetAddress() {
         return targetAddress;
     }
 
-    public Address getDestinationAddress() {
+    public Register getDestinationAddress() {
         return destinationAddress;
     }
 
     @Override
-    public Address getSourceAddress() {
+    public Register getSourceAddress() {
         return sourceAddress;
     }
 

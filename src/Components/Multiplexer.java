@@ -18,27 +18,46 @@ public class Multiplexer {
     public Multiplexer(String humanNickname, AndGate andGate, UpperAdd givenUpperAdd, Adder givenAdder) {
         this.humanNickname = humanNickname;
         this.controlUnit = andGate.controlUnitForPCSrc;
-        MUXDecider(givenUpperAdd, givenAdder);
+        PCSrcMUX(givenUpperAdd, givenAdder);
+    }
+    public Multiplexer (String humanNickname,ControlUnit controlUnit, LowerAdder lowerAdder, DataMemory dataMemory){
+        this.humanNickname = humanNickname;
+        this.controlUnit = controlUnit.MemToReg;
+        MemToRegMUX(lowerAdder, dataMemory);
     }
 
-    private void MUXDecider (UpperAdd givenUpperAdd, Adder givenAdder){
-        if(humanNickname.equalsIgnoreCase("PCSrc")){
-            System.out.println("I chose PCSrc, because I received PCSrc as human nickname");
-            PCSrcMUX(givenUpperAdd, givenAdder);
-        }
-    }
+//    private void MUXDecider (UpperAdd givenUpperAdd, Adder givenAdder){
+//        if(humanNickname.equalsIgnoreCase("PCSrc")){
+//            System.out.println("I chose PCSrc, because I received PCSrc as human nickname");
+//            PCSrcMUX(givenUpperAdd, givenAdder);
+//        }
+//        if(humanNickname.equalsIgnoreCase("MemToReg")){
+//
+//        }
+//    }
 
     // PSCrcMUX
-    private int PCSrcMUX (UpperAdd givenUpperAdd, Adder givenAdder){
+    private void PCSrcMUX (UpperAdd givenUpperAdd, Adder givenAdder) {
 
-        if(controlUnit == 0){
+        if (controlUnit == 0) {
             System.out.println("My address is the incremented address because Control Unit == 0");
             AddressDestination = givenAdder.incrementedAddress();
-        }
-        else if (controlUnit == 1){
+        } else if (controlUnit == 1) {
             System.out.println("My address is the UpperAdd ALURes address because Control Unit == 1");
             AddressDestination = givenUpperAdd.ALUResult;
         }
-        return AddressDestination;
     }
+
+    private void MemToRegMUX (LowerAdder lowerAdder, DataMemory dataMemory) {
+        if(controlUnit == 0){
+            System.out.println("My address is the lowerAdder.ALUResult because Control Unit == 0");
+            AddressDestination = lowerAdder.ALUResult;
+        }
+        else if (controlUnit == 1){
+            System.out.println("My address is the dataMemory.readData ALURes address because Control Unit == 1");
+            AddressDestination = dataMemory.readData;
+        }
+    }
+
+
 }

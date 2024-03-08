@@ -1,11 +1,11 @@
 package Components;
 
-import Compiler.Address.Address;
+import Compiler.Register.Register;
 
 public class Adder {
-    Address address;
+    Register address;
     public Adder() {}
-    public Adder (Address address){
+    public Adder (Register address){
         this.address = address;
     }
     public int incrementedAddress(){

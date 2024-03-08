@@ -1,11 +1,13 @@
 package Compiler;
 
-import Compiler.Address.AddressProvider;
+import Compiler.Register.RegisterProvider;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
-import Compiler.Address.Address;
+
+import Compiler.Register.Register;
+import Compiler.Register.RegisterProvider;
+
 import java.util.regex.*;
 
 // TODO currently this class does not validate $zero and other specific edge cases handeling of syntax errors
@@ -13,12 +15,12 @@ public class InstructionParser {
     String instruction;
     Compiler compiler;
     ArrayList<String> registers;
-    AddressProvider addressProvider;
-    public InstructionParser(String instruction, Compiler compiler, AddressProvider addressProvider) {
+    RegisterProvider addressProvider;
+    public InstructionParser(String instruction, Compiler compiler, RegisterProvider registerProvider) {
         this.instruction = instruction;
         this.compiler = compiler;
         this.registers = new ArrayList<String>();
-        this.addressProvider = addressProvider;
+        this.addressProvider = registerProvider;
     }
 
     public MipsInstruction parse() {
@@ -38,9 +40,9 @@ public class InstructionParser {
 
         if(typeOfInstruction == InstructionType.Rtype) {
             System.out.println(Arrays.toString(registersInInstruction));
-            Address sourceAddress = addressProvider.getAddressByHumanName(registersInInstruction[0]);
-            Address targetAddress = addressProvider.getAddressByHumanName(registersInInstruction[1]);
-            Address destinationAddress = addressProvider.getAddressByHumanName(registersInInstruction[2]);
+            Register sourceAddress = addressProvider.getRegisterByHumanName(registersInInstruction[0]);
+            Register targetAddress = addressProvider.getRegisterByHumanName(registersInInstruction[1]);
+            Register destinationAddress = addressProvider.getRegisterByHumanName(registersInInstruction[2]);
             int functionCodeOfInstruction = this.getInstructionFunctionCode();
 
             return new RTypeMipsInstruction(opCodeOfInstruction, sourceAddress, targetAddress, destinationAddress, 0, functionCodeOfInstruction);
@@ -91,10 +93,10 @@ public class InstructionParser {
 
     private boolean validateRegister(String register) {
         boolean result = false;
-        Address[] addresses = this.addressProvider.getAddressArray();
+        Register[] addresses = this.addressProvider.getRegisterArray();
 
         for(int i = 0; i < addresses.length; i++) {
-            if(addresses[i].getAddressHumanName().equals(register)) {
+            if(addresses[i].getRegisterHumanName().equals(register)) {
                 result = true;
             }
         }

@@ -1,15 +1,12 @@
-import Compiler.Address.Address;
-import Components.AndGate;
+import Compiler.Register.Register;
+import Compiler.Register.RegisterProvider;
 import Components.ControlUnit;
-import Components.Multiplexer;
-import Components.ProgramCounter;
+import Components.DataMemory;
 import DataPath.DataPath;
 import Compiler.Compiler;
 import Compiler.InstructionParser;
 import Compiler.MipsInstruction;
-import Compiler.Address.AddressProvider;
-import Compiler.MipsInstruction;
-import Compiler.InstructionType;
+;
 import Compiler.RTypeMipsInstruction;
 
 public class Main {
@@ -17,20 +14,22 @@ public class Main {
         DataPath dataPath = buildDataPath();
         String addCommand = "add $s1, $t2, $t3";
         Compiler mipsCompiler = new Compiler();
-        AddressProvider addressProvider = new AddressProvider();
+        RegisterProvider registerProvider = new RegisterProvider();
 
-        InstructionParser mipsInstructionParser = new InstructionParser(addCommand, mipsCompiler, addressProvider);
+        InstructionParser mipsInstructionParser = new InstructionParser(addCommand, mipsCompiler, registerProvider);
         MipsInstruction instructionToTest = mipsInstructionParser.parse();
 
         ControlUnit controlUnit = new ControlUnit(instructionToTest.getOpCode()); //Test
+
+        DataMemory dataMemory = new DataMemory(instructionToTest.getTargetAddress(), instructionToTest.getSourceAddress(), instructionToTest.)
 //        AndGate andGate = new AndGate();
 
         if(instructionToTest instanceof RTypeMipsInstruction) {
             RTypeMipsInstruction rTypeInstruction = (RTypeMipsInstruction) instructionToTest;
             System.out.println("Decoded command: opCode=" + rTypeInstruction.getOpCode()
-                    + " rs=" + rTypeInstruction.getSourceAddress().getAddressHumanName()
-                    + " rt="+ instructionToTest.getTargetAddress().getAddressHumanName()
-                    + " rd=" + rTypeInstruction.getDestinationAddress().getAddressHumanName()
+                    + " rs=" + rTypeInstruction.getSourceAddress().getRegisterHumanName()
+                    + " rt="+ instructionToTest.getTargetAddress().getRegisterHumanName()
+                    + " rd=" + rTypeInstruction.getDestinationAddress().getRegisterHumanName()
                     + " shamt=" +rTypeInstruction.getShamt()
                     + " functionCode=" + instructionToTest.getFunctionCode());
         }
