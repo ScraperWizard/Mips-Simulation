@@ -1,10 +1,10 @@
 package Compiler;
 
-import Compiler.Address.Address;
+import Compiler.Register.Register;
 
 public abstract class MipsInstruction {
-    public abstract  Address getTargetAddress();
-    public abstract Address getSourceAddress();
+    public abstract  Register getTargetAddress();
+    public abstract Register getSourceAddress();
     public abstract int getOpCode();
     public abstract InstructionType getType();
     public abstract int getFunctionCode();

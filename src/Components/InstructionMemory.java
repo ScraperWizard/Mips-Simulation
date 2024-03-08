@@ -5,18 +5,18 @@ package Components;
 import Compiler.MipsInstruction;
 import Compiler.InstructionParser;
 import Compiler.Compiler;
-import Compiler.Address.AddressProvider;
+import Compiler.Register.RegisterProvider;
 
 public class InstructionMemory {
     private MipsInstruction[] memory;
     private Compiler compiler;
-    private AddressProvider addressProvider;
+    private RegisterProvider addressProvider;
     private ProgramCounter programCounter;
     // Here Let's assume that the size for instruction memory
     private static final int MEMORY_SIZE = 1077;
 
     // Constructor 
-    public InstructionMemory(Compiler compiler, AddressProvider addressProvider, ProgramCounter programCounter) {
+    public InstructionMemory(Compiler compiler, RegisterProvider addressProvider, ProgramCounter programCounter) {
         this.compiler = compiler;
         this.addressProvider = addressProvider;
         this.memory = new MipsInstruction[MEMORY_SIZE];

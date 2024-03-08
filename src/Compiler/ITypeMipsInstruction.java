@@ -1,16 +1,16 @@
 package Compiler;
 
-import Compiler.Address.Address;
+import Compiler.Register.Register;
 
 public class ITypeMipsInstruction extends MipsInstruction {
 
     @Override
-    public Address getTargetAddress() {
+    public Register getTargetAddress() {
         return null;
     }
 
     @Override
-    public Address getSourceAddress() {
+    public Register getSourceAddress() {
         return null;
     }
 

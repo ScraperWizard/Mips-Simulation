@@ -1,15 +1,13 @@
 package Components;
 
-import Compiler.Address.Address;
-import Compiler.Address.AddressProvider;
+import Compiler.Register.Register;
+import Compiler.Register.RegisterProvider;
 
 public class ProgramCounter {
-    Address address;
-    AddressProvider addressProvider;
-    ProgramCounter(Address address, AddressProvider addressProvider){
-     this.address = address;
-     this.addressProvider = addressProvider;
+    Register address;
+    RegisterProvider registerProvider;
+    ProgramCounter(Register address, RegisterProvider registerProvider){
+        this.address = address;
+        this.registerProvider = registerProvider;
     }
-
-
 }
