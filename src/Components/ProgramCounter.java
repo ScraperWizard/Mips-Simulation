@@ -14,4 +14,9 @@ public class ProgramCounter {
     public int getCounter() {
         return counter;
     }
+
+    public void setCounter(int branchAddress) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'setCounter'");
+    }
 }
