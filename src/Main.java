@@ -1,4 +1,6 @@
 import Compiler.Address.Address;
+import Components.AndGate;
+import Components.ControlUnit;
 import Components.Multiplexer;
 import Components.ProgramCounter;
 import DataPath.DataPath;
@@ -34,6 +36,9 @@ public class Main {
 
         InstructionParser mipsInstructionParser = new InstructionParser(addCommand, mipsCompiler, addressProvider);
         MipsInstruction instructionToTest = mipsInstructionParser.parse();
+
+        ControlUnit controlUnit = new ControlUnit(instructionToTest.getOpCode()); //Test
+//        AndGate andGate = new AndGate();
 
         if(instructionToTest instanceof RTypeMipsInstruction) {
             RTypeMipsInstruction rTypeInstruction = (RTypeMipsInstruction) instructionToTest;
