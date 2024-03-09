@@ -1,7 +1,6 @@
 package Components;
 
 public class AndGate {
-
     public int controlUnitForPCSrc;
     int Branch2;
     int zeroFlag2;
@@ -22,6 +21,4 @@ public class AndGate {
             controlUnitForPCSrc = 1;
         }
     }
-
-
 }

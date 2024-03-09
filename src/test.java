@@ -22,16 +22,14 @@ public class test {
 
         ControlUnit controlUnit = new ControlUnit();
         AluControl aluControl = new AluControl();
+        Multiplexer multiplexer = new Multiplexer()
         RegisterMemory registerMemory = new RegisterMemory();
         SignExtend signExtend = new SignExtend();
         LowerAdder ALU = new LowerAdder();
 
-
-
-
         //add s1 s2 s3
         RTypeMipsInstruction rTypeInstruction = (RTypeMipsInstruction) instructionToTest;
-        controlUnit.update(rTypeInstruction.getOpCode());
+        controlUnit.update(rTypeInstruction);
         aluControl.update(controlUnit, rTypeInstruction);
         registerMemory.readData1 = 9;
         registerMemory.readData2 = 6;
@@ -48,7 +46,7 @@ public class test {
         registerProvider.getRegisterByHumanName("$s1").setValue(0);
 
         RTypeMipsInstruction rTypeInstruction2 = (RTypeMipsInstruction) instructionToTest2;
-        controlUnit.update(rTypeInstruction2.getOpCode());
+        controlUnit.update(rTypeInstruction2);
         aluControl.update(controlUnit, rTypeInstruction2);
         registerMemory.readData1 = 9;
         registerMemory.readData2 = 6;
@@ -66,21 +64,12 @@ public class test {
         ALU.zeroFlag=1;
         AndGate andGate = new AndGate();
 
-
-
         adder.update(programCounter);
         shiftLeft2.update(signExtend);
         upperAdd.update(shiftLeft2,adder);
         andGate.update(controlUnit,ALU);
 
         Multiplexer PCSRC = new Multiplexer("PCSRC",andGate,upperAdd,adder);
-
-
-
-
-
-
-
     }
-    }
+}
 

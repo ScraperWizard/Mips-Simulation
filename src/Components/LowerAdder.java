@@ -34,7 +34,6 @@ public class LowerAdder { //Check https://excalidraw.com/#room=7e7f9e982b6558301
             slt(a,b);
     }
 
-
     private void add(int a,int b){
         output= a+b;
         System.out.println(output);

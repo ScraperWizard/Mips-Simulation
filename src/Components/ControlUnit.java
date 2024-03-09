@@ -17,8 +17,8 @@ public class ControlUnit {
 
     }
 
-    public void update (int OPCODE, MipsInstruction instruction) {
-        this.OPCODE = OPCODE;
+    public void update (MipsInstruction instruction) {
+        this.OPCODE = instruction.getOpCode();
         this.instruction = instruction;
         controlUnitDecider();
     }

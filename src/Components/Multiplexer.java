@@ -48,7 +48,6 @@ public class Multiplexer {
 
     // PSCrcMUX
     private void PCSrcMUX (UpperAdd givenUpperAdd, Adder givenAdder) {
-
         if (controlUnit == 0) {
             System.out.println("My address is the incremented address because Control Unit == 0 "+ givenAdder.nextAddress);
             AddressDestination = givenAdder.nextAddress;
