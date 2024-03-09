@@ -31,9 +31,9 @@ public class AluControl {
         else if(ALUOp==1)//beq
             operation=6;
         else if(ALUOp==3){
-            if(opCode==13)
+            if(opCode==13)//or
                 operation=1;
-            else if(opCode==12)
+            else if(opCode==12)//and
                 operation=0;
             else operation=-1;
         }

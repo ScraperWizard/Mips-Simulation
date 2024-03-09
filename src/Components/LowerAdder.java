@@ -9,6 +9,7 @@ public class LowerAdder { //Check https://excalidraw.com/#room=7e7f9e982b6558301
     int operation;
     int a;
     int b;
+    int output;
 
     public LowerAdder(){}
 
@@ -23,25 +24,34 @@ public class LowerAdder { //Check https://excalidraw.com/#room=7e7f9e982b6558301
             add(a,b);
         else if(operation==6)
             sub(a,b);
+        else if(operation==0)
+            and(a,b);
+        else if(operation==1)
+            or(a,b);
+        else if(operation==12)
+            nor(a,b);
+        else if(operation==7)
+            slt(a,b);
     }
 
 
 
-    private int add(int a,int b){
-        return a+b;
+    private void add(int a,int b){
+        output= a+b;
+        System.out.println(output);
     }
-    private  int sub(int a,int b){
-        return a-b;
+    private  void sub(int a,int b){
+        output= a-b;
     }
-    private int and(int a,int b){
-        return a&b;
+    private void and(int a,int b){
+        output= a&b;
     }
-    private int or(int a,int b){return a|b;}
-    private int nor(int a,int b){return ~(a|b);}
-    private int slt(int a,int b){
+    private void or(int a,int b){output= a|b;}
+    private void nor(int a,int b){output= ~(a|b);}
+    private void slt(int a,int b){
         if(a<b)
-            return 1;
-        else return 0;
+            output= 1;
+        else output= 0;
 
     }
 
