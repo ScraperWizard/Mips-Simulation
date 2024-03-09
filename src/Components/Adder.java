@@ -10,6 +10,6 @@ public class Adder {
     }
     public int incrementedAddress(){
         System.out.println("Adder: I returned the address+4");
-        return address.getAddressId()+4;
+        return address.getAddressId() + 4;
     }
 }
