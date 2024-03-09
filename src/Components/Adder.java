@@ -3,13 +3,15 @@ package Components;
 import Compiler.Register.Register;
 
 public class Adder {
-    Register address;
+    Register register;
     public Adder() {}
-    public Adder (Register address){
-        this.address = address;
+
+    public void update (Register register){
+        this.register = register;
     }
+
     public int incrementedAddress(){
         System.out.println("Adder: I returned the address+4");
-        return address.getAddressId() + 4;
+        return register.getRegisterId()+4;
     }
 }

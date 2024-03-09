@@ -5,7 +5,9 @@ public class AndGate {
     int Branch2;
     int zeroFlag2;
 
-    AndGate(ControlUnit controlUnit, LowerAdder lowerAdder){
+    AndGate(){    }
+
+    public void update (ControlUnit controlUnit, LowerAdder lowerAdder){
         this.Branch2 = controlUnit.Branch;
         this.zeroFlag2 = lowerAdder.zeroFlag;
         controlUnitForPCSrcDecider();

@@ -1,6 +1,7 @@
 import Compiler.Register.Register;
 import Compiler.Register.RegisterProvider;
 import Components.ControlUnit;
+import Components.DataMemory;
 import DataPath.DataPath;
 import Compiler.Compiler;
 import Compiler.InstructionParser;
@@ -19,6 +20,8 @@ public class Main {
         MipsInstruction instructionToTest = mipsInstructionParser.parse();
 
         ControlUnit controlUnit = new ControlUnit(instructionToTest.getOpCode()); //Test
+
+        DataMemory dataMemory = new DataMemory(instructionToTest.getTargetAddress(), instructionToTest.getSourceAddress(), instructionToTest.)
 //        AndGate andGate = new AndGate();
 
         if(instructionToTest instanceof RTypeMipsInstruction) {
@@ -34,6 +37,8 @@ public class Main {
 //        int functionCode = instructionToTest.getFunctionCode();
 //        Address sourceAddress = instructionToTest.getSourceAddress();
 //        Address targetAddress = instructionToTest.getSourceAddress();
+
+
     }
 
     public static DataPath buildDataPath() { // This method should build all of the components,wires of a datapath
