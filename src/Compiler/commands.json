@@ -4,5 +4,161 @@
     "type": "R",
     "op": 0,
     "func": 32
+  },
+  {
+    "name": "and",
+    "type": "R",
+    "op": 0,
+    "func": 36
+  },
+  {
+    "name": "jr",
+    "type": "R",
+    "op": 0,
+    "func": 8
+  },
+  {
+    "name": "mult",
+    "type": "R",
+    "op": 0,
+    "func": 24
+  },
+  {
+    "name": "nor",
+    "type": "R",
+    "op": 0,
+    "func": 39
+  },
+  {
+    "name": "or",
+    "type": "R",
+    "op": 0,
+    "func": 37
+  },
+  {
+    "name": "sll",
+    "type": "R",
+    "op": 0,
+    "func": 0
+  },
+  {
+    "name": "slt",
+    "type": "R",
+    "op": 0,
+    "func": 42
+  },
+  {
+    "name": "srl",
+    "type": "R",
+    "op": 0,
+    "func": 2
+  },
+  {
+    "name": "sub",
+    "type": "R",
+    "op": 0,
+    "func": 34
+  },
+  {
+    "name": "j",
+    "type": "J",
+    "op": 2,
+    "func": 0
+  },
+  {
+    "name": "jal",
+    "type": "J",
+    "op": 3,
+    "func": 0
+  },
+  {
+    "name": "addi",
+    "type": "I",
+    "op": 8,
+    "func": 0
+  },
+  {
+    "name": "andi",
+    "type": "I",
+    "op": 12,
+    "func": 0
+  },
+  {
+    "name": "beq",
+    "type": "I",
+    "op": 4,
+    "func": 0
+  },
+  {
+    "name": "bne",
+    "type": "I",
+    "op": 5,
+    "func": 0
+  },
+  {
+    "name": "lb",
+    "type": "I",
+    "op": 32,
+    "func": 0
+  },
+  {
+    "name": "lbu",
+    "type": "I",
+    "op": 36,
+    "func": 0
+  },
+  {
+    "name": "lhu",
+    "type": "I",
+    "op": 37,
+    "func": 0
+  },
+  {
+    "name": "lui",
+    "type": "I",
+    "op": 15,
+    "func": 0
+  },
+  {
+    "name": "lw",
+    "type": "I",
+    "op": 35,
+    "func": 0
+  },
+  {
+    "name": "ori",
+    "type": "I",
+    "op": 13,
+    "func": 0
+  },
+  {
+    "name": "sb",
+    "type": "I",
+    "op": 40,
+    "func": 0
+  },
+  {
+    "name": "sh",
+    "type": "I",
+    "op": 41,
+    "func": 0
+  },
+  {
+    "name": "slti",
+    "type": "I",
+    "op": 10,
+    "func": 0
+  },
+  {
+    "name": "sltiu",
+    "type": "I",
+    "op": 11,
+    "func": 0
+  },
+  {
+    "name": "sw",
+    "type": "I",
+    "op": 43,
+    "func": 0
   }
 ]

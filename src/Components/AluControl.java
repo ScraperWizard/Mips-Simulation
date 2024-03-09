@@ -25,6 +25,7 @@ public class AluControl {
     }
 
     public void getOperation(int ALUOp){
+        System.out.println("ALU op is: "+ ALUOp);
         //missing addi, andi, ori,sll
         if(ALUOp==0)//sw,lw,addi
             operation=2;
@@ -55,6 +56,7 @@ public class AluControl {
         }
         else operation=-1;
 
+        System.out.println("operation is: "+operation);
         return;
     }
 

@@ -31,7 +31,7 @@ public class ControlUnit {
             MemRead = 0;
             MemWrite = 0;
             Branch = 0;
-            ALUOp = 10;
+            ALUOp = 2;
         // J Label --> PLEASE DOUBLE CHECK the control units
         } else if (OPCODE == 000010 || OPCODE == 2) {
             System.out.println("ControlUnit: I chose j label control unit");
@@ -42,7 +42,7 @@ public class ControlUnit {
             MemRead = 0;
             MemWrite = 0;
             Branch = 1;
-            ALUOp = 00;
+            ALUOp = 0;
         }
         // Jal Label --> PLEASE DOUBLE CHECK the control units
         else if (OPCODE == 000011 || OPCODE == 3){
@@ -54,7 +54,7 @@ public class ControlUnit {
             MemRead = 0;
             MemWrite = 0;
             Branch = 1;
-            ALUOp = 00;
+            ALUOp = 0;
         }
         // beq --> Sure about the Signals
         else if(OPCODE == 000100 || OPCODE == 4){
@@ -78,7 +78,7 @@ public class ControlUnit {
             MemRead = 0;
             MemWrite = 0;
             Branch = 0;
-            ALUOp = 00;
+            ALUOp = 0;
         }
         // andi --> PLEASE DOUBLE CHECK the control units
         else if(OPCODE == 001100 || OPCODE == 12){
@@ -114,7 +114,7 @@ public class ControlUnit {
             MemRead = 1;
             MemWrite = 0;
             Branch = 0;
-            ALUOp = 00;
+            ALUOp = 0;
         }
         // sw --> Sure about the Signals
         else if(OPCODE == 101011 || OPCODE == 43){
@@ -126,7 +126,7 @@ public class ControlUnit {
             MemRead = 0;
             MemWrite = 1;
             Branch = 0;
-            ALUOp = 00;
+            ALUOp = 0;
         }
 
     }

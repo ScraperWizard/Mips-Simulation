@@ -4,8 +4,8 @@ package Components;
 public class RegisterMemory {
     private int[] registers;
     private static final int NUM_REGISTERS = 32; // why ? because Mips has 32 Rgs
-    int readData1; // Output
-    int readData2; //Output
+    public int readData1; // Output
+    public int readData2; //Output
     
     // time for another Constructor
     public RegisterMemory() {

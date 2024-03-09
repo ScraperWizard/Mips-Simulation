@@ -21,4 +21,8 @@ public class Register {
     public int getValue() {
         return value;
     }
+
+    public void setValue(int v){
+        this.value=v;
+    }
 }

@@ -10,4 +10,17 @@ public class ProgramCounter {
         this.address = address;
         this.registerProvider = registerProvider;
     }
+
+    public int getCounter(){
+        return 0;
+
+    }
+
+    public void increment(){
+        return;
+    }
+
+    public void setCounter(int a){
+        return;
+    }
 }

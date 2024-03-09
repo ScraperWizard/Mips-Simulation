@@ -42,16 +42,30 @@ public class LowerAdder { //Check https://excalidraw.com/#room=7e7f9e982b6558301
     }
     private  void sub(int a,int b){
         output= a-b;
+        System.out.println(output);
     }
     private void and(int a,int b){
         output= a&b;
+        System.out.println(output);
     }
-    private void or(int a,int b){output= a|b;}
-    private void nor(int a,int b){output= ~(a|b);}
+    private void or(int a,int b){
+        output= a|b;
+        System.out.println(output);
+    }
+    private void nor(int a,int b){
+        output= ~(a|b);
+        System.out.println(output);
+    }
     private void slt(int a,int b){
-        if(a<b)
+        if(a<b){
             output= 1;
-        else output= 0;
+            System.out.println(a +" is less than "+b);
+        }
+        else {
+            output= 0;
+            System.out.println(a +" is not less than "+b);
+        }
+
 
     }
 

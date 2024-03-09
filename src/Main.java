@@ -19,9 +19,7 @@ public class Main {
         InstructionParser mipsInstructionParser = new InstructionParser(addCommand, mipsCompiler, registerProvider);
         MipsInstruction instructionToTest = mipsInstructionParser.parse();
 
-        ControlUnit controlUnit = new ControlUnit(instructionToTest.getOpCode()); //Test
 
-        DataMemory dataMemory = new DataMemory(instructionToTest.getTargetAddress(), instructionToTest.getSourceAddress(), instructionToTest.)
 //        AndGate andGate = new AndGate();
 
         if(instructionToTest instanceof RTypeMipsInstruction) {

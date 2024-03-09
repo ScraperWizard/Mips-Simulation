@@ -22,12 +22,12 @@ public class DataMemory {
         // lw
         if(memoryWrite == 0 && memoryRead == 1){
             System.out.println("LW Instruction, so readData = address");
-            readData = .getAddressId[address];
+            //readData = .getAddressId[address];
         }
         // sw
         else if (memoryWrite == 1 && memoryRead == 0){
             System.out.println("SW Instruction, so address = writeData");
-            .getAddressId[address] = writeData;
+           // .getAddressId[address] = writeData;
         }
         else if (memoryWrite == 0 && memoryRead == 0){
             System.out.println("R type instruction, IDC");

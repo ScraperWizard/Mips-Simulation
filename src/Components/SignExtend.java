@@ -10,8 +10,11 @@ public class SignExtend {
     }
 
     public void update(MipsInstruction mipsInstruction){
-        ITypeMipsInstruction instruction =(ITypeMipsInstruction) mipsInstruction;
-        this.input=instruction.getOffset();
-        this.output=this.input;
+        if(mipsInstruction instanceof ITypeMipsInstruction){
+            ITypeMipsInstruction instruction =(ITypeMipsInstruction) mipsInstruction;
+            this.input=instruction.getOffset();
+            this.output=this.input;
+        }
+
     }
 }
