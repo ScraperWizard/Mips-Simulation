@@ -28,4 +28,8 @@ public class ITypeMipsInstruction extends MipsInstruction {
     public int getFunctionCode() {
         return 0;
     }
+
+    public  int getOffset(){
+        return 0;
+    }
 }

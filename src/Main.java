@@ -37,6 +37,8 @@ public class Main {
 //        int functionCode = instructionToTest.getFunctionCode();
 //        Address sourceAddress = instructionToTest.getSourceAddress();
 //        Address targetAddress = instructionToTest.getSourceAddress();
+
+
     }
 
     public static DataPath buildDataPath() { // This method should build all of the components,wires of a datapath

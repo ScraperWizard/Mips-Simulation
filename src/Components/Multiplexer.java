@@ -26,6 +26,15 @@ public class Multiplexer {
         MemToRegMUX(lowerAdder, dataMemory);
     }
 
+    public Multiplexer(String humanNickname,ControlUnit controlUnit,RegisterMemory registerMemory,SignExtend signExtend){
+        this.humanNickname="ALUSrcMUX";
+        if(controlUnit.ALUSrc==1)
+            AddressDestination=signExtend.output;
+        else if(controlUnit.ALUSrc==0)
+            AddressDestination=registerMemory.readData2;
+        else AddressDestination=-1;
+    }
+
 //    private void MUXDecider (UpperAdd givenUpperAdd, Adder givenAdder){
 //        if(humanNickname.equalsIgnoreCase("PCSrc")){
 //            System.out.println("I chose PCSrc, because I received PCSrc as human nickname");
