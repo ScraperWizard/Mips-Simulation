@@ -11,6 +11,10 @@ public class ProgramCounter {
         this.registerProvider = registerProvider;
     }
 
+    public ProgramCounter (){
+
+    }
+
     public int getCounter(){
         return 0;
 
@@ -21,6 +25,7 @@ public class ProgramCounter {
     }
 
     public void setCounter(int a){
+
         return;
     }
 }

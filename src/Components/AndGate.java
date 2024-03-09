@@ -1,11 +1,12 @@
 package Components;
 
 public class AndGate {
-    int controlUnitForPCSrc;
+
+    public int controlUnitForPCSrc;
     int Branch2;
     int zeroFlag2;
 
-    AndGate(){    }
+    public AndGate(){    }
 
     public void update (ControlUnit controlUnit, LowerAdder lowerAdder){
         this.Branch2 = controlUnit.Branch;
