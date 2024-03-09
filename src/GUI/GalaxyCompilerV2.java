@@ -97,8 +97,8 @@ public class GalaxyCompilerV2 extends JFrame {
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            GalaxyCompilerV2 GUI = new GalaxyCompilerV2();
-            GUI.setVisible(true);
+            //GalaxyCompilerV2 GUI = new GalaxyCompilerV2();
+           // GUI.setVisible(true);
         });
     }
 

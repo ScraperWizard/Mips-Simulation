@@ -40,9 +40,9 @@ public class InstructionParser {
 
         if(typeOfInstruction == InstructionType.Rtype) {
             System.out.println(Arrays.toString(registersInInstruction));
-            Register sourceAddress = addressProvider.getRegisterByHumanName(registersInInstruction[0]);
-            Register targetAddress = addressProvider.getRegisterByHumanName(registersInInstruction[1]);
-            Register destinationAddress = addressProvider.getRegisterByHumanName(registersInInstruction[2]);
+            Register sourceAddress = addressProvider.getRegisterByHumanName(registersInInstruction[1]);
+            Register targetAddress = addressProvider.getRegisterByHumanName(registersInInstruction[2]);
+            Register destinationAddress = addressProvider.getRegisterByHumanName(registersInInstruction[0]);
             int functionCodeOfInstruction = this.getInstructionFunctionCode();
 
             return new RTypeMipsInstruction(opCodeOfInstruction, sourceAddress, targetAddress, destinationAddress, 0, functionCodeOfInstruction);

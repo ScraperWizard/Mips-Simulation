@@ -6,6 +6,7 @@ import Compiler.Register.RegisterProvider;
 public class ProgramCounter {
     Register address;
     RegisterProvider registerProvider;
+    int counter;
     ProgramCounter(Register address, RegisterProvider registerProvider){
         this.address = address;
         this.registerProvider = registerProvider;
@@ -16,7 +17,7 @@ public class ProgramCounter {
     }
 
     public int getCounter(){
-        return 0;
+        return counter;
 
     }
 
@@ -25,7 +26,7 @@ public class ProgramCounter {
     }
 
     public void setCounter(int a){
-
+        counter=a;
         return;
     }
 }

@@ -1,11 +1,11 @@
 package Components;
-
+import Compiler.MipsInstruction;
 
 public class Multiplexer {
 
     private String humanNickname;// PCSrcMUX, MemToRegMUX, ALUSrcMUX, RegDstMUX --> Agreed MUXS names
     int controlUnit;
-    int AddressDestination; // Output
+    public int AddressDestination; // Output
 
 /*    public Multiplexer(int controlUnit){
         this.controlUnit = controlUnit;
@@ -25,6 +25,10 @@ public class Multiplexer {
         this.humanNickname = humanNickname;
         this.controlUnit = controlUnit.MemToReg;
         MemToRegMUX(lowerAdder, dataMemory);
+    }
+
+    public Multiplexer(ControlUnit controlUnit,MipsInstruction instruction){
+
     }
 
     public Multiplexer(String humanNickname,ControlUnit controlUnit,RegisterMemory registerMemory,SignExtend signExtend){
@@ -49,22 +53,23 @@ public class Multiplexer {
     // PSCrcMUX
     private void PCSrcMUX (UpperAdd givenUpperAdd, Adder givenAdder) {
         if (controlUnit == 0) {
-            System.out.println("My address is the incremented address because Control Unit == 0 "+ givenAdder.nextAddress);
+            System.out.println("PC will get "+ givenAdder.nextAddress);
             AddressDestination = givenAdder.nextAddress;
         } else if (controlUnit == 1) {
-            System.out.println("My address is the UpperAdd ALURes address because Control Unit == 1 " +givenUpperAdd.ALUResult );
+            System.out.println("Jumping to :" +givenUpperAdd.ALUResult );
             AddressDestination = givenUpperAdd.ALUResult;
         }
     }
 
     private void MemToRegMUX(LowerAdder lowerAdder, DataMemory dataMemory) {
         if(controlUnit == 0){
-            System.out.println("My address is the lowerAdder.ALUResult because Control Unit == 0");
+            System.out.println("Selected ALU Result");
             AddressDestination = lowerAdder.output;
         }
         else if (controlUnit == 1){
-            System.out.println("My address is the dataMemory.readData ALURes address because Control Unit == 1");
+            System.out.println("Selected Memory result");
             AddressDestination = dataMemory.valueAtReadData;
         }
     }
+
 }

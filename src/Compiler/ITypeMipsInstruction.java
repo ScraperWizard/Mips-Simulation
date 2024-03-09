@@ -16,7 +16,7 @@ public class ITypeMipsInstruction extends MipsInstruction {
 
     @Override
     public int getOpCode() {
-        return 0;
+        return 999;
     }
 
     @Override

@@ -15,7 +15,7 @@ public class SignExtend {
             this.input=instruction.getOffset();
             this.output=this.input;
         }
-        else output=8;
+        else output=-100000;
 
     }
 }
