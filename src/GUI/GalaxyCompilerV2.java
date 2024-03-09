@@ -5,13 +5,22 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.io.*;
 
+import Compiler.Addresses.AddressProvider;
+import Compiler.Register.Register;
+import Compiler.Register.RegisterProvider;
+
+
 public class GalaxyCompilerV2 extends JFrame {
 
     private JTextArea editPanel;
     private JTextArea outputConsole;
     private JTable registerTable;
+    private AddressProvider addressProvider;
+    private RegisterProvider registerProvider;
 
-    public GalaxyCompilerV2() {
+    public GalaxyCompilerV2(AddressProvider addressProvider, RegisterProvider registerProvider) {
+        this.addressProvider = new AddressProvider();
+        this.registerProvider = new RegisterProvider(addressProvider);
         setTitle("MIPS GALAXY V.0.0.1");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(800, 600);
@@ -30,29 +39,12 @@ public class GalaxyCompilerV2 extends JFrame {
         String[] columnNames = {"Index", "Register", "Value"};
         Object[][] data = new Object[32][3];
 
-        // Register names
-        String[] registerNames = {
-                "$zero", "$at", "$v0", "$v1", "$a0", "$a1", "$a2", "$a3",
-                "$t0", "$t1", "$t2", "$t3", "$t4", "$t5", "$t6", "$t7",
-                "$s0", "$s1", "$s2", "$s3", "$s4", "$s5", "$s6", "$s7",
-                "$t8", "$t9", "$k0", "$k1", "$gp", "$sp", "$fp", "$ra"
-        };
-
-        for (int i = 0; i < 32; i++) {
-            data[i][0] = i; // Index column
-            data[i][1] = registerNames[i];
-            if (i == 30) {
-                data[i][2] = 0x7fffeffc;
-            } else if (i == 29) {
-                data[i][2] = 0x10008000;
-            } else {
-                data[i][2] = 0x00000000;
-            }
-        }
+        refreshDataTable(data);
 
         registerTable = new JTable(data, columnNames);
         JScrollPane registerTableScroll = new JScrollPane(registerTable);
         mainPanel.add(registerTableScroll, BorderLayout.EAST);
+
 
         // Console output for the .asm code
         outputConsole = new JTextArea(10, 40); // Increase dimensions
@@ -92,6 +84,16 @@ public class GalaxyCompilerV2 extends JFrame {
         saveItem.addActionListener(e -> saveFile());
     }
 
+    public void refreshDataTable(Object[][] data) {
+        Register[] registerArray = registerProvider.getRegisterArray();
+
+        for(int i = 0; i < registerArray.length; i+=4) {
+            data[i / 4][0] = i / 4;
+            data[i / 4][1] = registerArray[i].getRegisterHumanName();
+            data[i / 4][2] = registerArray[i].getValue();
+            System.out.println(registerArray[i].getRegisterHumanName());
+        }
+    }
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
@@ -99,9 +101,6 @@ public class GalaxyCompilerV2 extends JFrame {
             GUI.setVisible(true);
         });
     }
-
-
-
 
 
     //Function to open a .asm file
@@ -188,7 +187,6 @@ public class GalaxyCompilerV2 extends JFrame {
     }
 
     private void updateRegisterTable(String line) {
-
         if (line.startsWith("$")) {
             String[] parts = line.split("[=,\\s]+");
             String register = parts[0];
@@ -203,4 +201,5 @@ public class GalaxyCompilerV2 extends JFrame {
             }
         }
     }
+
 }
