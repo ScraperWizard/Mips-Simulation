@@ -1,14 +1,16 @@
 package Components;
 
 public class ShiftLeft2 {
-    Sign bit32FromSignExtend;
+    SignExtend signExtend;
+    int output;
     public ShiftLeft2() {  }
 
-    public void update(int given32bit){
-        bit32FromSignExtend = given32bit;
+    public void update(SignExtend signExtend){
+        this.signExtend = signExtend;
+        shiftLeftBy2();
     }
-    public int shiftLeftBy2(){
+    public void shiftLeftBy2(){
         System.out.println("ShiftLeft2: I returned 32 bits from Sign Extend*4");
-        return bit32FromSignExtend*4;
+        output = output*4;
     }
 }

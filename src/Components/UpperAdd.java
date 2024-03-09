@@ -15,6 +15,6 @@ public class UpperAdd { //Check https://excalidraw.com/#room=7e7f9e982b6558301fd
 
     void UpperAddOperation(){
         System.out.println("UpperAdder: I retuned shiftefLeftValue + incrementedAddress");
-        ALUResult = shiftLeft2.shiftLeftBy2() + adder.incrementedAddress();
+        ALUResult = shiftLeft2.output + adder.incrementedAddress();
     }
 }

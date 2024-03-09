@@ -66,7 +66,7 @@ public class ControlUnit {
             MemRead = 0;
             MemWrite = 0;
             Branch = 1;
-            ALUOp = 01;
+            ALUOp = 1;
         }
         // addi --> PLEASE DOUBLE CHECK the control units
         else if(OPCODE == 001000 || OPCODE == 8){
@@ -90,7 +90,7 @@ public class ControlUnit {
             MemRead = 0;
             MemWrite = 0;
             Branch = 0;
-            ALUOp = 10;
+            ALUOp = 3;
         }
         // ori --> PLEASE DOUBLE CHECK the control units
         else if(OPCODE == 001101 || OPCODE == 13){
@@ -102,7 +102,7 @@ public class ControlUnit {
             MemRead = 0;
             MemWrite = 0;
             Branch = 0;
-            ALUOp = 11;
+            ALUOp = 3;
         }
         // lw --> Sure about the Signals
         else if(OPCODE == 100011 || OPCODE == 35){
