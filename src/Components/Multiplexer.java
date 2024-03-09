@@ -19,6 +19,7 @@ public class Multiplexer {
         this.humanNickname = humanNickname;
         this.controlUnit = andGate.controlUnitForPCSrc;
         PCSrcMUX(givenUpperAdd, givenAdder);
+
     }
     public Multiplexer (String humanNickname,ControlUnit controlUnit, LowerAdder lowerAdder, DataMemory dataMemory){
         this.humanNickname = humanNickname;
@@ -49,10 +50,10 @@ public class Multiplexer {
     private void PCSrcMUX (UpperAdd givenUpperAdd, Adder givenAdder) {
 
         if (controlUnit == 0) {
-            System.out.println("My address is the incremented address because Control Unit == 0");
-            AddressDestination = givenAdder.incrementedAddress();
+            System.out.println("My address is the incremented address because Control Unit == 0 "+ givenAdder.nextAddress);
+            AddressDestination = givenAdder.nextAddress;
         } else if (controlUnit == 1) {
-            System.out.println("My address is the UpperAdd ALURes address because Control Unit == 1");
+            System.out.println("My address is the UpperAdd ALURes address because Control Unit == 1 " +givenUpperAdd.ALUResult );
             AddressDestination = givenUpperAdd.ALUResult;
         }
     }

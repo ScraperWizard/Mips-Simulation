@@ -4,14 +4,17 @@ import Compiler.Register.Register;
 
 public class Adder {
     Register register;
+    int currentAddress;
+    int nextAddress;
     public Adder() {}
 
-    public void update (Register register){
-        this.register = register;
+    public void update (ProgramCounter pc){
+        currentAddress=pc.getCounter();
+        incrementedAddress();
     }
 
-    public int incrementedAddress(){
+    public void incrementedAddress(){
         System.out.println("Adder: I returned the address+4");
-        return register.getRegisterId()+4;
+        nextAddress= currentAddress+4;
     }
 }

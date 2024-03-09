@@ -10,7 +10,8 @@ public class ShiftLeft2 {
         shiftLeftBy2();
     }
     public void shiftLeftBy2(){
-        System.out.println("ShiftLeft2: I returned 32 bits from Sign Extend*4");
-        output = output*4;
+
+        output = signExtend.output*4;
+        System.out.println("ShiftLeft2: I returned " +output);
     }
 }
