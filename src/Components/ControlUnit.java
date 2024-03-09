@@ -1,4 +1,5 @@
 package Components;
+import Compiler.MipsInstruction;
 
 public class ControlUnit {
     int OPCODE;
@@ -10,16 +11,21 @@ public class ControlUnit {
     int MemWrite;
     int ALUSrc;
     int RegWrite;
+    private MipsInstruction instruction;
 
     public ControlUnit() {
 
     }
 
-    public void update (int OPCODE) {
+    public void update (int OPCODE, MipsInstruction instruction) {
         this.OPCODE = OPCODE;
+        this.instruction = instruction;
         controlUnitDecider();
     }
 
+    public MipsInstruction getInstruction() {
+        return this.instruction;
+    }
     public void controlUnitDecider() {
         //  R-Type --> Sure about the Signals
         if (OPCODE == 000000 || OPCODE == 0) {

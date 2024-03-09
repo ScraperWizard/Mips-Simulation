@@ -35,7 +35,6 @@ public class LowerAdder { //Check https://excalidraw.com/#room=7e7f9e982b6558301
     }
 
 
-
     private void add(int a,int b){
         output= a+b;
         System.out.println(output);
@@ -65,13 +64,5 @@ public class LowerAdder { //Check https://excalidraw.com/#room=7e7f9e982b6558301
             output= 0;
             System.out.println(a +" is not less than "+b);
         }
-
-
     }
-
-
-
-
-
-
 }

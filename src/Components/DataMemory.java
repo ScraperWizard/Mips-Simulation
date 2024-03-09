@@ -1,38 +1,35 @@
 package Components;
 
+import Compiler.Addresses.AddressProvider;
+
 import java.util.ArrayList;
 
 public class DataMemory {
-    int readData; //output
-    int memoryWrite; //input
-    int memoryRead; //input
-    int address; //input
-    int writeData; //input
+    private ControlUnit controlUnitl;
+    private LowerAdder lowerAdder;
+    private RegisterMemory registerMemory;
+    private AddressProvider addressProvider;
+    public int valueAtReadData;
 
-    DataMemory(){    }
-    public void update (ControlUnit controlUnit, LowerAdder lowerAdder, RegisterMemory registerMemory){
-        this.memoryRead = controlUnit.MemRead;
-        this.memoryWrite = controlUnit.MemWrite;
-        this.address = lowerAdder.ALUResult;
-        this.writeData = registerMemory.readData2;
-        dataMemoryOperation();
+    DataMemory(ControlUnit controlUnit, LowerAdder lowerAdder, RegisterMemory registerMemory, AddressProvider addressProvider) {
+        this.controlUnitl = controlUnit;
+        this.registerMemory = registerMemory;
+        this.lowerAdder = lowerAdder;
+        this.addressProvider = addressProvider;
     }
 
-    private void dataMemoryOperation(){
-        // lw
-        if(memoryWrite == 0 && memoryRead == 1){
-            System.out.println("LW Instruction, so readData = address");
-            //readData = .getAddressId[address];
-        }
-        // sw
-        else if (memoryWrite == 1 && memoryRead == 0){
+    private void dataMemoryOperation() {
+        int memoryWrite  = this.controlUnitl.MemWrite;
+        int memoryRead = this.controlUnitl.MemRead;
+        int lowerAdderOutput = this.lowerAdder.output;
+
+        if (memoryWrite == 1 && memoryRead == 0) {
             System.out.println("SW Instruction, so address = writeData");
-           // .getAddressId[address] = writeData;
+            addressProvider.getAddressAtIndex(lowerAdderOutput).setValue(registerMemory.readData2);
+            System.out.println("sw instruction, setting value " + registerMemory.readData2 + " in address " + lowerAdderOutput);
+        } else {
+            System.out.println("LW Instruction, so readData = address");
+            valueAtReadData = addressProvider.getAddressAtIndex(lowerAdderOutput).getValue();
         }
-        else if (memoryWrite == 0 && memoryRead == 0){
-            System.out.println("R type instruction, IDC");
-        }
-
     }
-
 }
