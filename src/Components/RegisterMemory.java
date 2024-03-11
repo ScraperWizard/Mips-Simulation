@@ -4,6 +4,9 @@ import Compiler.Register.Register;
 import Compiler.Register.RegisterProvider;
 import Compiler.RTypeMipsInstruction;
 import Compiler.ITypeMipsInstruction;
+import Compiler.MipsInstruction;
+
+import java.security.PublicKey;
 
 public class RegisterMemory {
     private RegisterProvider registerProvider;
@@ -16,6 +19,22 @@ public class RegisterMemory {
     public RegisterMemory(Multiplexer memToReg, ControlUnit controlUnit) {
         this.memToReg = memToReg;
         this.controlUnit = controlUnit;
+    }
+
+    public RegisterMemory(){
+    }
+
+    public void update(Multiplexer memToReg,ControlUnit controlUnit){
+        this.memToReg = memToReg;
+        this.controlUnit = controlUnit;
+
+    }
+
+    public void readFromRegisters(MipsInstruction instruction) {
+        if(instruction instanceof RTypeMipsInstruction)
+            readFromRegisters((RTypeMipsInstruction) instruction);
+        else if (instruction instanceof ITypeMipsInstruction)
+            readFromRegisters((ITypeMipsInstruction) instruction);
     }
 
     // Method to read data
@@ -41,18 +60,22 @@ public class RegisterMemory {
     }
 
     public void writeToRegister() {
-        if(memToReg.AddressDestination == 1) {
+
+        if(controlUnit.MemToReg== 0) {
+            System.out.println(" Value from ALU:"+memToReg.AddressDestination);
             if(controlUnit.getInstruction() instanceof RTypeMipsInstruction) {
                 RTypeMipsInstruction instruction = (RTypeMipsInstruction) controlUnit.getInstruction();
 
                 instruction.getDestinationAddress().setValue(memToReg.AddressDestination);
             }
-        } else {
-            if(controlUnit.getInstruction() instanceof ITypeMipsInstruction) {
+           else if(controlUnit.getInstruction() instanceof ITypeMipsInstruction) {
                 ITypeMipsInstruction instruction = (ITypeMipsInstruction) controlUnit.getInstruction();
 
                 instruction.getTargetAddress().setValue(memToReg.AddressDestination);
             }
+        } else {
+            //todo
+
         }
     }
 }

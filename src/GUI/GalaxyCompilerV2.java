@@ -13,6 +13,7 @@ import Compiler.Register.RegisterProvider;
 public class GalaxyCompilerV2 extends JFrame {
 
     private JTextArea editPanel;
+    private JTextArea registerPanel;
     private JTextArea outputConsole;
     private JTable registerTable;
     private AddressProvider addressProvider;
@@ -28,12 +29,23 @@ public class GalaxyCompilerV2 extends JFrame {
 
         // Main Panel with border layout and stuff
         JPanel mainPanel = new JPanel(new BorderLayout());
+        //Assembly code panel and register value panel
+        JPanel editorPanel = new JPanel(new GridLayout(1, 2));
 
         // Edit Panel for the code or simply code panel
         editPanel = new JTextArea();
         editPanel.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 15));
         JScrollPane editPanelScroll = new JScrollPane(editPanel);
-        mainPanel.add(editPanelScroll, BorderLayout.CENTER);
+        editorPanel.add(editPanelScroll);
+
+        //Register value panel to enter the register values etc
+        registerPanel=new JTextArea();
+        registerPanel.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 15));
+        JScrollPane registerPanelScroll= new JScrollPane(registerPanel);
+        editorPanel.add(registerPanelScroll);
+
+        mainPanel.add(editorPanel,BorderLayout.CENTER);
+
 
         // Register table displaying registers, their numbers and values
         String[] columnNames = {"Index", "Register", "Value"};
@@ -97,7 +109,9 @@ public class GalaxyCompilerV2 extends JFrame {
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            GalaxyCompilerV2 GUI = new GalaxyCompilerV2();
+            AddressProvider addressProvider = new AddressProvider();
+            RegisterProvider registerProvider = new RegisterProvider(addressProvider);
+            GalaxyCompilerV2 GUI = new GalaxyCompilerV2(addressProvider, registerProvider);
             GUI.setVisible(true);
         });
     }

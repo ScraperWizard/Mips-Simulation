@@ -17,7 +17,7 @@
 //        InstructionParser mipsInstructionParser = new InstructionParser(addCommand, mipsCompiler, registerProvider);
 //        MipsInstruction instructionToTest = mipsInstructionParser.parse();
 //        registerProvider.getRegisterByHumanName("$t2").setValue(9);
-////        registerProvider.getRegisterByHumanName("$t3").setValue(6);
+////      registerProvider.getRegisterByHumanName("$t3").setValue(6);
 //        registerProvider.getRegisterByHumanName("$s1").setValue(0);
 //
 //        ControlUnit controlUnit = new ControlUnit();

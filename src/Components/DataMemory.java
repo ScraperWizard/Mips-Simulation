@@ -11,11 +11,22 @@ public class DataMemory {
     private AddressProvider addressProvider;
     public int valueAtReadData;
 
-    DataMemory(ControlUnit controlUnit, LowerAdder lowerAdder, RegisterMemory registerMemory, AddressProvider addressProvider) {
+    public DataMemory(ControlUnit controlUnit, LowerAdder lowerAdder, RegisterMemory registerMemory, AddressProvider addressProvider) {
         this.controlUnitl = controlUnit;
         this.registerMemory = registerMemory;
         this.lowerAdder = lowerAdder;
         this.addressProvider = addressProvider;
+    }
+
+    public  DataMemory(){
+
+    }
+    public void update(ControlUnit controlUnit, LowerAdder lowerAdder, RegisterMemory registerMemory, AddressProvider addressProvider) {
+        this.controlUnitl = controlUnit;
+        this.registerMemory = registerMemory;
+        this.lowerAdder = lowerAdder;
+        this.addressProvider = addressProvider;
+        dataMemoryOperation();
     }
 
     private void dataMemoryOperation() {
@@ -27,9 +38,12 @@ public class DataMemory {
             System.out.println("SW Instruction, so address = writeData");
             addressProvider.getAddressAtIndex(lowerAdderOutput).setValue(registerMemory.readData2);
             System.out.println("sw instruction, setting value " + registerMemory.readData2 + " in address " + lowerAdderOutput);
-        } else {
+        } else if(memoryRead==1 && memoryWrite==0) {
             System.out.println("LW Instruction, so readData = address");
             valueAtReadData = addressProvider.getAddressAtIndex(lowerAdderOutput).getValue();
+        }
+        else{
+            System.out.println("Data Memory has no use");
         }
     }
 }
