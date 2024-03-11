@@ -19,6 +19,8 @@ public class GalaxyCompilerV2 extends JFrame {
     private AddressProvider addressProvider;
     private RegisterProvider registerProvider;
 
+    public JButton executeButton;
+
     public GalaxyCompilerV2(AddressProvider addressProvider, RegisterProvider registerProvider) {
         this.addressProvider = new AddressProvider();
         this.registerProvider = new RegisterProvider(addressProvider);
@@ -74,7 +76,7 @@ public class GalaxyCompilerV2 extends JFrame {
         fileMenu.add(saveItem);
         menuBar.add(fileMenu);
 
-        JButton executeButton = new JButton("Execute");
+        executeButton = new JButton("Execute");
         executeButton.addActionListener(e -> executeCode());
 
         JButton clearOutputButton = new JButton("Clear Output");
@@ -107,14 +109,7 @@ public class GalaxyCompilerV2 extends JFrame {
         }
     }
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            AddressProvider addressProvider = new AddressProvider();
-            RegisterProvider registerProvider = new RegisterProvider(addressProvider);
-            GalaxyCompilerV2 GUI = new GalaxyCompilerV2(addressProvider, registerProvider);
-            GUI.setVisible(true);
-        });
-    }
+
 
 
     //Function to open a .asm file
@@ -164,40 +159,47 @@ public class GalaxyCompilerV2 extends JFrame {
         }
     }
 
-    private void executeCode() {
+    public String[] executeCode() {
+
         String code = editPanel.getText();
-        try {
-            Process process = Runtime.getRuntime().exec("mips-compiler");
-            BufferedReader inputReader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-            BufferedReader errorReader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
+        int numberOfCommands=editPanel.getLineCount();
 
-            // Write code to process's input stream
-            process.getOutputStream().write(code.getBytes());
-            process.getOutputStream().flush();
+            String[] instructionMemory=code.split("\n");
 
-            // Read output and error streams
-            String line;
-            StringBuilder output = new StringBuilder();
-            StringBuilder error = new StringBuilder();
-            while ((line = inputReader.readLine()) != null) {
-                output.append(line).append("\n");
-                updateRegisterTable(line);
-            }
-            while ((line = errorReader.readLine()) != null) {
-                error.append(line).append("\n");
-            }
+            return instructionMemory;
 
-            // Update console output
-            outputConsole.setText(output.toString());
+
+
+
+//            Process process = Runtime.getRuntime().exec("mips-compiler");
+//            BufferedReader inputReader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+//            BufferedReader errorReader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
+//
+//            // Write code to process's input stream
+//            process.getOutputStream().write(code.getBytes());
+//            process.getOutputStream().flush();
+//
+//            // Read output and error streams
+//            String line;
+//            StringBuilder output = new StringBuilder();
+//            StringBuilder error = new StringBuilder();
+//            while ((line = inputReader.readLine()) != null) {
+//                output.append(line).append("\n");
+//                updateRegisterTable(line);
+//            }
+//            while ((line = errorReader.readLine()) != null) {
+//                error.append(line).append("\n");
+//            }
+//
+//            // Update console output
+//            outputConsole.setText(output.toString());
 
             // Wait for the process to complete
-            int exitCode = process.waitFor();
-            if (exitCode != 0) {
-                outputConsole.append("Execution failed with exit code " + exitCode);
-            }
-        } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
-        }
+//            int exitCode = process.waitFor();
+//            if (exitCode != 0) {
+//                outputConsole.append("Execution failed with exit code " + exitCode);
+//            }
+
     }
 
     private void updateRegisterTable(String line) {

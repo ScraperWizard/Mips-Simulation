@@ -1,3 +1,6 @@
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.util.Arrays;
 import java.util.Scanner;
 
 import Compiler.Addresses.AddressProvider;
@@ -9,20 +12,37 @@ import Compiler.InstructionParser;
 import Compiler.MipsInstruction;
 import Compiler.RTypeMipsInstruction;
 import Compiler.ITypeMipsInstruction;
+import GUI.GalaxyCompilerV2;
+
+import javax.swing.*;
 
 public class Test2 {
     public static void main(String[] args){
 
+
+
+        String[] commands=null;
+        AddressProvider addressProvider = new AddressProvider();
+        RegisterProvider registerProvider = new RegisterProvider(addressProvider);
+        GalaxyCompilerV2 GUI = new GalaxyCompilerV2(addressProvider, registerProvider);
+        GUI.setVisible(true);
+
+        GUI.executeButton.addActionListener(e -> executeClick(GUI,addressProvider,registerProvider));
+
+
+
+
+
+
+    }
+
+    public static void executeClick(GalaxyCompilerV2 GUI,AddressProvider addressProvider, RegisterProvider registerProvider){
+        String[] commands;
+        commands=GUI.executeCode();
+        System.out.println(Arrays.toString(commands));
         Scanner sova= new Scanner(System.in);
 
-        String[] commands={
-                "add $s2, $s3, $s1",
-                "add $s1, $s1, $s2",
-                "sub $s4, $s3, $s1",
-        };
         Compiler mmipsCompiler = new Compiler();
-        AddressProvider addressProvider= new AddressProvider();
-        RegisterProvider registerProvider = new RegisterProvider(addressProvider);
         registerProvider.getRegisterByHumanName("$s1").setValue(10);
         registerProvider.getRegisterByHumanName("$s2").setValue(5);
         registerProvider.getRegisterByHumanName("$s3").setValue(9);
@@ -41,6 +61,8 @@ public class Test2 {
         DataMemory dataMemory= new DataMemory();
 
         programCounter.setCounter(0);
+
+
 
         for(int i=0;i<commands.length;){
 
@@ -113,6 +135,10 @@ public class Test2 {
             sova.next();
         }
 
+    //lw $s1 20($s2)--> rt $s1 rd $s2 16bit 20
+    //sw $s1 20($s2)
 
     }
 }
+
+
