@@ -3,33 +3,48 @@ package Compiler;
 import Compiler.Register.Register;
 
 public class ITypeMipsInstruction extends MipsInstruction {
+    private int opCode;
+    private Register sourceAddress;
+    private Register targetAddress;
+    private String offsetRubishValue;
+
+    public ITypeMipsInstruction(int opCode, Register sourceAddress, Register targetAddress, int functionCode) {
+        this.opCode = opCode;
+        this.sourceAddress = sourceAddress;
+        this.targetAddress = targetAddress;
+        this.offsetRubishValue = "00000000000" + functionCode;
+    }
 
     @Override
     public Register getTargetAddress() {
-        return null;
+        return targetAddress;
     }
 
     @Override
     public Register getSourceAddress() {
-        return null;
+        return sourceAddress;
     }
 
     @Override
     public int getOpCode() {
-        return 0;
+        return opCode;
     }
 
     @Override
     public InstructionType getType() {
-        return null;
+        return InstructionType.Itype;
     }
 
     @Override
     public int getFunctionCode() {
-        return 0;
+        return Integer.parseInt(offsetRubishValue);
     }
 
-    public  int getOffset(){
-        return 0;
+    public String getOffset(){
+        return offsetRubishValue;
+    }
+
+    public int getOffsetInt(){
+        return Integer.parseInt(offsetRubishValue);
     }
 }

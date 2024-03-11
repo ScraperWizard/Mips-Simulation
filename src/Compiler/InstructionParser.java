@@ -35,6 +35,7 @@ public class InstructionParser {
         InstructionType typeOfInstruction = this.getInstructionType();
         String[] registersInInstruction = this.parseRegisters();
         int opCodeOfInstruction = this.getInstructionOpCode();
+        int functionCodeOfInstruction = this.getInstructionFunctionCode();
 
         System.out.println(typeOfInstruction);
 
@@ -43,11 +44,14 @@ public class InstructionParser {
             Register sourceAddress = addressProvider.getRegisterByHumanName(registersInInstruction[0]);
             Register targetAddress = addressProvider.getRegisterByHumanName(registersInInstruction[1]);
             Register destinationAddress = addressProvider.getRegisterByHumanName(registersInInstruction[2]);
-            int functionCodeOfInstruction = this.getInstructionFunctionCode();
-
             return new RTypeMipsInstruction(opCodeOfInstruction, sourceAddress, targetAddress, destinationAddress, 0, functionCodeOfInstruction);
         } else if(typeOfInstruction == InstructionType.Itype) {
-            return new ITypeMipsInstruction();
+            Register sourceAddress = addressProvider.getRegisterByHumanName(registersInInstruction[0]);
+            Register targetAddress = addressProvider.getRegisterByHumanName(registersInInstruction[1]);
+            return new ITypeMipsInstruction(opCodeOfInstruction, sourceAddress, targetAddress, functionCodeOfInstruction);
+        } else if(typeOfInstruction == InstructionType.Jtype) {
+            Register targetAddress = addressProvider.getRegisterByHumanName(registersInInstruction[1]);
+            return new JTypeMipsInstruction(opCodeOfInstruction, targetAddress, functionCodeOfInstruction);
         };
 
         throw new IllegalArgumentException("Unsupported mips instruction type");
