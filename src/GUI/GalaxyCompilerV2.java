@@ -125,7 +125,7 @@ public class GalaxyCompilerV2 extends JFrame {
             progressBar.setStringPainted(true);
             popupPanel.add(progressBar, BorderLayout.CENTER);
 
-            ImageIcon imageIcon = new ImageIcon("C:\\Users\\Afzal\\Downloads\\MIPS\\Images\\galaxy-stars-space-digital-art-4k-wallpaper-pixground.jpg");
+            ImageIcon imageIcon = new ImageIcon("galaxy-stars-space-digital-art-4k-wallpaper-pixground.jpg");
             Image image = imageIcon.getImage().getScaledInstance(400, 200, Image.SCALE_SMOOTH); // Scale the image to fit the popup window dimensions
             JLabel imageLabel = new JLabel(new ImageIcon(image));
             popupPanel.add(imageLabel, BorderLayout.SOUTH);
