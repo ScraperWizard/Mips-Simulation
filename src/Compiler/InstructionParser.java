@@ -36,6 +36,8 @@ public class InstructionParser {
         int functionCodeOfInstruction = this.getInstructionFunctionCode(instruction);
         Command instructionCommand = this.compiler.getCommandByName(this.parseKeyword(instruction));
 
+        System.out.println("Parsed registers " + Arrays.toString(registersInInstruction));
+
         if(typeOfInstruction == InstructionType.Rtype) {
             Register destinationAddress = addressProvider.getRegisterByHumanName(registersInInstruction[0]);
             Register sourceAddress = addressProvider.getRegisterByHumanName(registersInInstruction[1]);
@@ -48,8 +50,15 @@ public class InstructionParser {
 
             return new ITypeMipsInstruction(opCodeOfInstruction, sourceAddress, targetAddress, functionCodeOfInstruction, instructionCommand, constantValue);
         } else if(typeOfInstruction == InstructionType.Jtype) {
-            Register targetAddress = addressProvider.getRegisterByHumanName(registersInInstruction[1]);
-            return new JTypeMipsInstruction(opCodeOfInstruction, targetAddress, functionCodeOfInstruction, instructionCommand);
+            int jumpRegValue;
+
+            if(registersInInstruction.length > 0 ) {
+                jumpRegValue = addressProvider.getRegisterByHumanName(registersInInstruction[0]).getValue();
+            } else {
+                jumpRegValue = Integer.parseInt(instruction.split(" ")[1]);
+            }
+
+            return new JTypeMipsInstruction(opCodeOfInstruction, functionCodeOfInstruction, instructionCommand, jumpRegValue);
         };
 
         throw new IllegalArgumentException("Unsupported mips instruction type");
@@ -90,7 +99,7 @@ public class InstructionParser {
         int commaCount = instruction.length() - instruction.replace(",", "").length();
 
         // Check if the syntax meets the specified criteria
-        if ((spaceCount != 2 && spaceCount != 3) || (commaCount != 1 && commaCount != 2)) {
+        if (((spaceCount != 2 && spaceCount != 3) || (commaCount != 1 && commaCount != 2)) && instruction.split(" ").length >= 3) {
             throw new IllegalArgumentException("Error in mips instruction syntax, check your commas spaces.");
         }
 
