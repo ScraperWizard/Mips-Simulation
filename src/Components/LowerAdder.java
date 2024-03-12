@@ -38,23 +38,23 @@ public class LowerAdder { //Check https://excalidraw.com/#room=7e7f9e982b6558301
 
     private void add(int a,int b) {
         output = a + b;
-        System.out.println("a= " + a + "b= " + b + "result=" + output);
+        System.out.println(a + " + " + b + " = " + output);
     }
     private  void sub(int a,int b){
         output= a-b;
-        System.out.println(output);
+        System.out.println(a + " - " + b + " = " + output);
     }
     private void and(int a,int b){
         output= a&b;
-        System.out.println(output);
+        System.out.println(a + " AND " + b + " = " + output);
     }
     private void or(int a,int b){
         output= a|b;
-        System.out.println(output);
+        System.out.println(a + " OR " + b + " = " + output);
     }
     private void nor(int a,int b){
         output= ~(a|b);
-        System.out.println(output);
+        System.out.println(a + " NOR " + b + " = " + output);
     }
     private void slt(int a,int b){
         if(a<b){
@@ -68,5 +68,6 @@ public class LowerAdder { //Check https://excalidraw.com/#room=7e7f9e982b6558301
     }
     private void sll(int a, int b){
         output= (int) (a*Math.pow(2,b));
+        System.out.println(a + " x 2^" + b + " = " + output);
     }
 }

@@ -64,6 +64,7 @@ public class Multiplexer {
 
     // PSCrcMUX
     private void PCSrcMUX (UpperAdd givenUpperAdd, Adder givenAdder) {
+        System.out.println("PC Src Mux:");
         if (controlUnit == 0) {
             System.out.println("PC will get "+ givenAdder.nextAddress);
             AddressDestination = givenAdder.nextAddress;
@@ -74,6 +75,7 @@ public class Multiplexer {
     }
 
     private void MemToRegMUX(LowerAdder lowerAdder, DataMemory dataMemory) {
+        System.out.println("Mem To Reg Mux:");
         if(controlUnit == 0){
             System.out.println("Selected ALU Result");
             AddressDestination = lowerAdder.output;

@@ -33,18 +33,17 @@ public class DataMemory {
         int memoryWrite  = this.controlUnitl.MemWrite;
         int memoryRead = this.controlUnitl.MemRead;
         int lowerAdderOutput = this.lowerAdder.output;
+        System.out.println("Data Memory:");
 
         if (memoryWrite == 1 && memoryRead == 0) {
-            System.out.println("SW Instruction, so address = writeData");
             addressProvider.getAddressAtIndex(lowerAdderOutput).setValue(registerMemory.readData2);
-            System.out.println("sw instruction, setting value " + registerMemory.readData2 + " in address " + lowerAdderOutput);
+            System.out.println("SW instruction, setting value " + registerMemory.readData2 + " in address " + lowerAdderOutput);
         } else if(memoryRead==1 && memoryWrite==0) {
-            System.out.println("[DataMemory LW Instruction, lowerAdderOutput=" + lowerAdderOutput + " addressProviderAddressId=" +
-                    addressProvider.getAddressAtIndex(lowerAdderOutput).getAddressId());
+            System.out.println("LW Instruction, loading the value in "  +lowerAdderOutput );
             valueAtReadData = addressProvider.getAddressAtIndex(lowerAdderOutput).getValue();
         }
         else{
-            System.out.println("Data Memory has no use");
+            System.out.println("data memory has no use");
         }
     }
 }

@@ -16,7 +16,7 @@ public class Adder {
     }
 
     public void incrementedAddress(){
-        System.out.println("Adder: I returned the address + 4");
         nextAddress = pc.getCounter() + 4;
+        System.out.println("Adder: I returned "+nextAddress);
     }
 }
