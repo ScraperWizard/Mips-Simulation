@@ -8,6 +8,7 @@ import java.util.Arrays;
 import Compiler.Register.Register;
 import Compiler.Register.RegisterProvider;
 
+import java.util.HashMap;
 import java.util.regex.*;
 
 // TODO currently this class does not validate $zero and other specific edge cases handeling of syntax errors
@@ -15,13 +16,22 @@ public class InstructionParser {
     Compiler compiler;
     ArrayList<String> registers;
     RegisterProvider addressProvider;
+    private HashMap<String, Integer> labelMap;
     public InstructionParser(Compiler compiler, RegisterProvider registerProvider) {
         this.compiler = compiler;
         this.registers = new ArrayList<String>();
         this.addressProvider = registerProvider;
     }
 
+    public void setLabelMap(HashMap<String, Integer> labelMap) {
+        this.labelMap = labelMap;
+    }
+
     public MipsInstruction parse(String instruction) {
+        if(instruction.contains(":")) {
+            return null;
+        }
+
         if(!validateInstructionKeyword(instruction)) {
             throw new IllegalArgumentException("Invalid MIPS instruction keyword " + this.parseKeyword(instruction));
         }
@@ -48,14 +58,24 @@ public class InstructionParser {
             Register sourceAddress = addressProvider.getRegisterByHumanName(registersInInstruction[1]);
             Register targetAddress = addressProvider.getRegisterByHumanName(registersInInstruction[0]);
 
+            System.out.println("Constant value " + constantValue);
+
             return new ITypeMipsInstruction(opCodeOfInstruction, sourceAddress, targetAddress, functionCodeOfInstruction, instructionCommand, constantValue);
         } else if(typeOfInstruction == InstructionType.Jtype) {
             int jumpRegValue;
 
-            if(registersInInstruction.length > 0 ) {
+            if(registersInInstruction.length > 0) {
                 jumpRegValue = addressProvider.getRegisterByHumanName(registersInInstruction[0]).getValue();
             } else {
-                jumpRegValue = Integer.parseInt(instruction.split(" ")[1]);
+                System.out.println("Inside of J type instruction " + instruction + " " + instruction.contains(":"));
+
+                try {
+                    int value = Integer.parseInt(instruction.split(" ")[1]);
+                    jumpRegValue = value;
+                } catch (NumberFormatException e) {
+                    System.out.println(instruction.split(" ")[1]);
+                    jumpRegValue = this.labelMap.get(instruction.split(" ")[1]+":");
+                }
             }
 
             return new JTypeMipsInstruction(opCodeOfInstruction, functionCodeOfInstruction, instructionCommand, jumpRegValue);
@@ -66,7 +86,18 @@ public class InstructionParser {
 
     private int getConstantValueIInstruction(String instruction) {
         if(!instruction.contains("(")) {
-            return Integer.parseInt(instruction.split(", ")[2]);
+            try {
+                return Integer.parseInt(instruction.split(", ")[2]);
+            } catch (NumberFormatException e) {
+                int res = this.labelMap.get(instruction.split(", ")[2] + ":");
+
+                if(this.parseKeyword(instruction).equals("beq")) {
+                    res-=4;
+                    res/=4;
+                }
+
+                return res;
+            }
         } else {
             String s1 = instruction.split(",")[1];
             String s2 = s1.split("\\(")[0];

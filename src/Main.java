@@ -15,6 +15,7 @@ import Compiler.Command;
 import GUI.GalaxyCompilerV2;
 
 import java.util.Arrays;
+import java.util.HashMap;
 
 public class Main {
     public static void main(String[] args) {
@@ -33,9 +34,31 @@ public class Main {
         gui.launchGui();
 
         gui.onExecuteCode((String[] codeObject) -> {
+            dataPath.programCounter.setCounter(0);
             String codeInput = codeObject[0];
             String registerInput = codeObject[1];
             String[] splittedString = codeInput.split("\n");
+            HashMap<String, Integer> map = new HashMap<String, Integer>();
+
+//j add
+//sub:
+//sub $s1, $s1, $s4
+//j exit
+//add:
+//add $s1, $s2, $s3
+//j sub
+//exit:
+//exit2:
+
+            // Loop over all code, and search for labels
+            for(int i = 0; i < splittedString.length; i++) {
+                if(splittedString[i].contains(":") && splittedString[i].split(" ").length == 1) {
+                    map.put(splittedString[i], i * 4 + 4);
+                    System.out.println("Added label " + splittedString[i]);
+                }
+            }
+
+            instructionParser.setLabelMap(map);
 
             RegisterProvider.initilizeRegisterValuesFromInput(registerInput, registerProvider);
 
