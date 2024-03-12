@@ -52,7 +52,7 @@ public class Compiler {
         return this.getCommandByName(name).getType();
     }
 
-    private Command getCommandByName(String name) {
+    public Command getCommandByName(String name) {
         Command command = null;
 
         for(int i = 0; i < commands.size(); i++) {

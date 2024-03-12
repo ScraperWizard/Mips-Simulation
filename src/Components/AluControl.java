@@ -11,13 +11,11 @@ public class AluControl {
     //output;
     int operation;
 
-
-
     public  AluControl(){
 
     }
 
-    public void update(ControlUnit controlUnit,MipsInstruction mipsInstruction){
+    public void update(ControlUnit controlUnit, MipsInstruction mipsInstruction) {
         this.controlUnit=controlUnit;
         this.functionCode=mipsInstruction.getFunctionCode();
         this.opCode= mipsInstruction.getOpCode();
@@ -59,5 +57,4 @@ public class AluControl {
         System.out.println("operation is: "+operation);
         return;
     }
-
 }

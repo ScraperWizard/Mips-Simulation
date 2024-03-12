@@ -1,49 +1,105 @@
+import Compiler.Addresses.AddressProvider;
 import Compiler.Register.Register;
 import Compiler.Register.RegisterProvider;
-import Components.ControlUnit;
-import Components.DataMemory;
+import Components.*;
 import DataPath.DataPath;
 import Compiler.Compiler;
 import Compiler.InstructionParser;
 import Compiler.MipsInstruction;
 ;
 import Compiler.RTypeMipsInstruction;
+import Compiler.ITypeMipsInstruction;
+import Compiler.JTypeMipsInstruction;
+import Compiler.Command;
+import GUI.GalaxyCompilerV2;
+
+import java.util.Arrays;
 
 public class Main {
-//    public static void main(String[] args) {
-//        DataPath dataPath = buildDataPath();
-//        String addCommand = "add $s1, $t2, $t3";
-//        Compiler mipsCompiler = new Compiler();
-//        RegisterProvider registerProvider = new RegisterProvider();
-//
-//        InstructionParser mipsInstructionParser = new InstructionParser(addCommand, mipsCompiler, registerProvider);
-//        MipsInstruction instructionToTest = mipsInstructionParser.parse();
-//
-//
-////        AndGate andGate = new AndGate();
-//
-//        if(instructionToTest instanceof RTypeMipsInstruction) {
-//            RTypeMipsInstruction rTypeInstruction = (RTypeMipsInstruction) instructionToTest;
-//            System.out.println("Decoded command: opCode=" + rTypeInstruction.getOpCode()
-//                    + " rs=" + rTypeInstruction.getSourceAddress().getRegisterHumanName()
-//                    + " rt="+ instructionToTest.getTargetAddress().getRegisterHumanName()
-//                    + " rd=" + rTypeInstruction.getDestinationAddress().getRegisterHumanName()
-//                    + " shamt=" +rTypeInstruction.getShamt()
-//                    + " functionCode=" + instructionToTest.getFunctionCode());
-//        }
-////        int opCode = instructionToTest.getOpcode();
-////        int functionCode = instructionToTest.getFunctionCode();
-////        Address sourceAddress = instructionToTest.getSourceAddress();
-////        Address targetAddress = instructionToTest.getSourceAddress();
-//
-//
-//    }
-//
-//    public static DataPath buildDataPath() { // This method should build all of the components,wires of a datapath
-//        // Initialize program counter, mux
-////        ProgramCounter programCounter = new ProgramCounter();
-////        Multiplexer mux1 = new Multiplexer("PCsrc");
-//
-//        return new DataPath(); // TODO not real implementation
-//    }
+    public static void main(String[] args) {
+        // Initialize all variables needed
+        AddressProvider addressProvider = new AddressProvider();
+        RegisterProvider registerProvider = new RegisterProvider(addressProvider);
+        GalaxyCompilerV2 gui = new GalaxyCompilerV2(addressProvider, registerProvider);
+
+        // Compiler
+        Compiler mipsCompiler = new Compiler();
+        InstructionParser instructionParser = new InstructionParser(mipsCompiler, registerProvider);
+
+        // Data path
+        DataPath dataPath = new DataPath(addressProvider, registerProvider);
+
+        gui.launchGui();
+        // add $s3, $s1, $s2
+        // $s1=2
+        // $s2=3
+
+        gui.onExecuteCode((String[] codeObject) -> {
+            String codeInput = codeObject[0];
+            String registerInput = codeObject[1];
+            String[] splittedString = codeInput.split("\n");
+
+            for(int i = 0; i < splittedString.length; i++) {
+                try {
+                    MipsInstruction mipsInstruction = instructionParser.parse(splittedString[i]);
+                    printInstructionInfo(mipsInstruction);
+
+                    RegisterProvider.initilizeRegisterValuesFromInput(registerInput, registerProvider);
+//                    dataPath.executeInstruction(mipsInstruction);
+
+                    gui.updateRegisterValues();
+                } catch (Exception e) {
+                    gui.showNotification(e.getMessage());
+                    e.printStackTrace(); // Print the exception details (optional, for debugging)
+                }
+            }
+        });
+    }
+
+    public static void printInstructionInfo(MipsInstruction instruction) {
+        int opCodeOfInstruction = instruction.getOpCode();
+        Command instructionCommand = instruction.getCommand();
+        System.out.println("----Instruction incoming----");
+        System.out.println("[Instruction keyword/command:"
+                + " name=" + instructionCommand.getName()
+                + " opCode=" + opCodeOfInstruction
+                + " type=" + instructionCommand.getType()
+                + " functionCode=" + instruction.getFunctionCode()
+                + "]"
+        );
+
+        String registerArguments = "[Instruction register arguments";
+
+        registerArguments += " rs=" +
+                "[name=" + instruction.getSourceAddress().getRegisterHumanName()
+                + " value=" +instruction.getSourceAddress().getValue()
+                +   "]";
+
+        if(instruction instanceof RTypeMipsInstruction) {
+            RTypeMipsInstruction RtypeInstruction  = (RTypeMipsInstruction) instruction;
+
+            registerArguments += " rt=" +
+                    "[name=" + instruction.getTargetAddress().getRegisterHumanName()
+                    + " value=" +instruction.getTargetAddress().getValue()
+                    +   "]";
+            registerArguments += " rd=" +
+                    "[name=" + RtypeInstruction.getDestinationAddress().getRegisterHumanName()
+                    + " value=" + RtypeInstruction.getDestinationAddress().getValue()
+                    +   "]";
+        }
+
+        if(instruction instanceof ITypeMipsInstruction) {
+            ITypeMipsInstruction ItypeInstruction  = (ITypeMipsInstruction) instruction;
+
+            registerArguments += " rt=" +
+                    "[name=" + instruction.getTargetAddress().getRegisterHumanName()
+                    + " value=" +instruction.getTargetAddress().getValue()
+                    +   "]";
+        }
+
+        registerArguments += "]";
+
+        System.out.println(registerArguments);
+        System.out.println("---------------------------");
+    }
 }

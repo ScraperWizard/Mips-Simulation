@@ -2,22 +2,25 @@ package Components;
 
 public class AndGate {
     public int controlUnitForPCSrc;
-    int Branch2;
-    int zeroFlag2;
+    private ControlUnit controlUnit;
+    private LowerAdder lowerAdder;
 
-    public AndGate(){    }
+    public AndGate(ControlUnit controlUnit, LowerAdder lowerAdder){
+        this.controlUnit = controlUnit;
+        this.lowerAdder = lowerAdder;
+    }
 
-    public void update (ControlUnit controlUnit, LowerAdder lowerAdder){
-        this.Branch2 = controlUnit.Branch;
-        this.zeroFlag2 = lowerAdder.zeroFlag;
+    public void update () {
         controlUnitForPCSrcDecider();
     }
 
     private void controlUnitForPCSrcDecider(){
+        int Branch2 = controlUnit.Branch;
+        int zeroFlag2 = lowerAdder.zeroFlag;
+
         if(Branch2*zeroFlag2 == 0){
             controlUnitForPCSrc = 0;
-        }
-        else if (Branch2*zeroFlag2 == 1){
+        } else if (Branch2*zeroFlag2 == 1){
             controlUnitForPCSrc = 1;
         }
     }

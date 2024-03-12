@@ -6,23 +6,27 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
+import java.util.function.Consumer;
 
 import Compiler.Addresses.AddressProvider;
 import Compiler.Register.Register;
 import Compiler.Register.RegisterProvider;
 
 public class GalaxyCompilerV2 extends JFrame {
-
     private JTextArea editPanel;
     private JTextArea registerPanel;
     private JTextArea outputConsole;
     private JTable registerTable;
     private AddressProvider addressProvider;
     private RegisterProvider registerProvider;
+    private Object[][] tableRegisterData;
+    private Consumer<String[]> callbackExecuteCode = null;
 
     public GalaxyCompilerV2(AddressProvider addressProvider, RegisterProvider registerProvider) {
-        this.addressProvider = new AddressProvider();
-        this.registerProvider = new RegisterProvider(addressProvider);
+        this.addressProvider = addressProvider;
+        this.registerProvider = registerProvider;
+        this.tableRegisterData = new Object[32][3];
+
         setTitle("MIPS GALAXY V.0.0.1");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(800, 600);
@@ -48,14 +52,13 @@ public class GalaxyCompilerV2 extends JFrame {
         mainPanel.add(editorPanel, BorderLayout.CENTER);
 
         // Register table displaying registers, their numbers and values
-        String[] columnNames = {"Index", "Register", "Value"};
-        Object[][] data = new Object[32][3];
+        String[] columnNames = { "Index", "Register", "Value" };
 
-        refreshDataTable(data);
-
-        registerTable = new JTable(data, columnNames);
+        registerTable = new JTable(this.tableRegisterData, columnNames);
         JScrollPane registerTableScroll = new JScrollPane(registerTable);
         mainPanel.add(registerTableScroll, BorderLayout.EAST);
+
+        updateRegisterValues();
 
         // Console output for the .asm code
         outputConsole = new JTextArea(10, 40); // Increase dimensions
@@ -94,7 +97,11 @@ public class GalaxyCompilerV2 extends JFrame {
         openItem.addActionListener(e -> openFile());
         saveItem.addActionListener(e -> saveFile());
     }
-
+    public void launchGui() {
+        SwingUtilities.invokeLater(() -> {
+            super.setVisible(true);
+        });
+    }
     public static class PopupWindow extends JWindow {
         private JProgressBar progressBar;
         private JLabel label;
@@ -156,25 +163,24 @@ public class GalaxyCompilerV2 extends JFrame {
         }
     }
 
-    public void refreshDataTable(Object[][] data) {
+    public void onExecuteCode(Consumer<String[]> callbackExecuteCode) {
+        if(this.callbackExecuteCode != null) {
+            return;
+        }
+
+        this.callbackExecuteCode = callbackExecuteCode;
+    }
+
+    public void updateRegisterValues() {
         Register[] registerArray = registerProvider.getRegisterArray();
 
         for (int i = 0; i < registerArray.length; i += 4) {
-            data[i / 4][0] = i / 4;
-            data[i / 4][1] = registerArray[i].getRegisterHumanName();
-            data[i / 4][2] = registerArray[i].getValue();
-            System.out.println(registerArray[i].getRegisterHumanName());
+            tableRegisterData[i / 4][0] = i / 4;
+            tableRegisterData[i / 4][1] = registerArray[i].getRegisterHumanName();
+            tableRegisterData[i / 4][2] = registerArray[i].getValue();
         }
-    }
 
-    public static void main(String[] args) {
-        AddressProvider addressProvider = new AddressProvider();
-        RegisterProvider registerProvider = new RegisterProvider(addressProvider);
-        GalaxyCompilerV2 GUI = new GalaxyCompilerV2(addressProvider, registerProvider);
-
-        SwingUtilities.invokeLater(() -> {
-            new PopupWindow(GUI);
-        });
+        this.registerTable.repaint();
     }
 
     //Function to open a .asm file
@@ -223,40 +229,47 @@ public class GalaxyCompilerV2 extends JFrame {
         }
     }
 
+    public void showNotification(String message) {
+        Notification popup = new Notification(this, message);
+        popup.setVisible(true);
+    }
+
     private void executeCode() {
         String code = editPanel.getText();
-        try {
-            Process process = Runtime.getRuntime().exec("mips-compiler");
-            BufferedReader inputReader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-            BufferedReader errorReader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
-
-            // Write code to process's input stream
-            process.getOutputStream().write(code.getBytes());
-            process.getOutputStream().flush();
-
-            // Read output and error streams
-            String line;
-            StringBuilder output = new StringBuilder();
-            StringBuilder error = new StringBuilder();
-            while ((line = inputReader.readLine()) != null) {
-                output.append(line).append("\n");
-                updateRegisterTable(line);
-            }
-            while ((line = errorReader.readLine()) != null) {
-                error.append(line).append("\n");
-            }
-
-            // Update console output
-            outputConsole.setText(output.toString());
-
-            // Wait for the process to complete
-            int exitCode = process.waitFor();
-            if (exitCode != 0) {
-                outputConsole.append("Execution failed with exit code " + exitCode);
-            }
-        } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
-        }
+        String registers = registerPanel.getText();
+        this.callbackExecuteCode.accept(new String[]{code, registers});
+//        try {
+//            Process process = Runtime.getRuntime().exec("mips-compiler");
+//            BufferedReader inputReader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+//            BufferedReader errorReader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
+//
+//            // Write code to process's input stream
+//            process.getOutputStream().write(code.getBytes());
+//            process.getOutputStream().flush();
+//
+//            // Read output and error streams
+//            String line;
+//            StringBuilder output = new StringBuilder();
+//            StringBuilder error = new StringBuilder();
+//            while ((line = inputReader.readLine()) != null) {
+//                output.append(line).append("\n");
+//                updateRegisterTable(line);
+//            }
+//            while ((line = errorReader.readLine()) != null) {
+//                error.append(line).append("\n");
+//            }
+//
+//            // Update console output
+//            outputConsole.setText(output.toString());
+//
+//            // Wait for the process to complete
+//            int exitCode = process.waitFor();
+//            if (exitCode != 0) {
+//                outputConsole.append("Execution failed with exit code " + exitCode);
+//            }
+//        } catch (IOException | InterruptedException e) {
+//            e.printStackTrace();
+//        }
     }
 
     private void updateRegisterTable(String line) {

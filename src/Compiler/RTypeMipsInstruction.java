@@ -10,13 +10,21 @@ public class RTypeMipsInstruction extends MipsInstruction {
     private int shamt;
     private int functionCode;
 
-    public RTypeMipsInstruction(int opCode, Register rs, Register rt, Register rd, int shamt, int functionCode) {
+    private Command command;
+
+    public RTypeMipsInstruction(int opCode, Register rs, Register rt, Register rd, int shamt, int functionCode, Command command) {
         this.opCode = opCode;
         this.sourceAddress = rs;
         this.targetAddress = rt;
         this.destinationAddress = rd;
         this.shamt = shamt;
         this.functionCode = functionCode;
+        this.command = command;
+    }
+
+    @Override
+    public Command getCommand() {
+        return command;
     }
 
     @Override

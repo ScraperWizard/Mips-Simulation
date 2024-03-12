@@ -13,7 +13,7 @@ public class LowerAdder { //Check https://excalidraw.com/#room=7e7f9e982b6558301
 
     public LowerAdder(){}
 
-    public void update(AluControl aluControl,RegisterMemory registerMemory,Multiplexer ALUSrcMUX){
+    public void update(AluControl aluControl, RegisterMemory registerMemory, Multiplexer ALUSrcMUX) {
         this.aluControl= aluControl;
         this.registerMemory=registerMemory;
         this.ALUSrcMUX=ALUSrcMUX;

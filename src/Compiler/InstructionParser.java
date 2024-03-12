@@ -12,61 +12,57 @@ import java.util.regex.*;
 
 // TODO currently this class does not validate $zero and other specific edge cases handeling of syntax errors
 public class InstructionParser {
-    String instruction;
     Compiler compiler;
     ArrayList<String> registers;
     RegisterProvider addressProvider;
-    public InstructionParser(String instruction, Compiler compiler, RegisterProvider registerProvider) {
-        this.instruction = instruction;
+    public InstructionParser(Compiler compiler, RegisterProvider registerProvider) {
         this.compiler = compiler;
         this.registers = new ArrayList<String>();
         this.addressProvider = registerProvider;
     }
 
-    public MipsInstruction parse() {
-        if(!validateInstructionKeyword()) {
-            throw new IllegalArgumentException("Invalid MIPS instruction keyword " + this.parseKeyword());
+    public MipsInstruction parse(String instruction) {
+        if(!validateInstructionKeyword(instruction)) {
+            throw new IllegalArgumentException("Invalid MIPS instruction keyword " + this.parseKeyword(instruction));
         }
 
-        if(!validateInstructionSyntax()) {
+        if(!validateInstructionSyntax(instruction)) {
             throw new IllegalArgumentException("Invalid MIPS syntax, please review your syntax");
         }
 
-        InstructionType typeOfInstruction = this.getInstructionType();
-        String[] registersInInstruction = this.parseRegisters();
-        int opCodeOfInstruction = this.getInstructionOpCode();
-        int functionCodeOfInstruction = this.getInstructionFunctionCode();
-
-        System.out.println(typeOfInstruction);
+        InstructionType typeOfInstruction = this.getInstructionType(instruction);
+        String[] registersInInstruction = this.parseRegisters(instruction);
+        int opCodeOfInstruction = this.getInstructionOpCode(instruction);
+        int functionCodeOfInstruction = this.getInstructionFunctionCode(instruction);
+        Command instructionCommand = this.compiler.getCommandByName(this.parseKeyword(instruction));
 
         if(typeOfInstruction == InstructionType.Rtype) {
-            System.out.println(Arrays.toString(registersInInstruction));
             Register sourceAddress = addressProvider.getRegisterByHumanName(registersInInstruction[0]);
             Register targetAddress = addressProvider.getRegisterByHumanName(registersInInstruction[1]);
             Register destinationAddress = addressProvider.getRegisterByHumanName(registersInInstruction[2]);
-            return new RTypeMipsInstruction(opCodeOfInstruction, sourceAddress, targetAddress, destinationAddress, 0, functionCodeOfInstruction);
+            return new RTypeMipsInstruction(opCodeOfInstruction, sourceAddress, targetAddress, destinationAddress, 0, functionCodeOfInstruction, instructionCommand);
         } else if(typeOfInstruction == InstructionType.Itype) {
             Register sourceAddress = addressProvider.getRegisterByHumanName(registersInInstruction[0]);
             Register targetAddress = addressProvider.getRegisterByHumanName(registersInInstruction[1]);
-            return new ITypeMipsInstruction(opCodeOfInstruction, sourceAddress, targetAddress, functionCodeOfInstruction);
+            return new ITypeMipsInstruction(opCodeOfInstruction, sourceAddress, targetAddress, functionCodeOfInstruction, instructionCommand);
         } else if(typeOfInstruction == InstructionType.Jtype) {
             Register targetAddress = addressProvider.getRegisterByHumanName(registersInInstruction[1]);
-            return new JTypeMipsInstruction(opCodeOfInstruction, targetAddress, functionCodeOfInstruction);
+            return new JTypeMipsInstruction(opCodeOfInstruction, targetAddress, functionCodeOfInstruction, instructionCommand);
         };
 
         throw new IllegalArgumentException("Unsupported mips instruction type");
     }
 
-    private int getInstructionOpCode() {
-        return this.compiler.getOpCodeByCommandName(this.parseKeyword());
+    private int getInstructionOpCode(String instruction) {
+        return this.compiler.getOpCodeByCommandName(this.parseKeyword(instruction));
     }
 
-    private int getInstructionFunctionCode() {
-        return this.compiler.getFunctionCodeByCommandName(this.parseKeyword());
+    private int getInstructionFunctionCode(String instruction) {
+        return this.compiler.getFunctionCodeByCommandName(this.parseKeyword(instruction));
     }
 
-    private InstructionType getInstructionType() {
-        String type = this.compiler.getTypeByCommandName(this.parseKeyword());
+    private InstructionType getInstructionType(String instruction) {
+        String type = this.compiler.getTypeByCommandName(this.parseKeyword(instruction));
         if(type.equals("I")) {
             return InstructionType.Itype;
         } else if(type.equals("R")) {
@@ -76,7 +72,7 @@ public class InstructionParser {
         }
     }
 
-    private boolean validateInstructionSyntax() {
+    private boolean validateInstructionSyntax(String instruction) {
         // Count spaces and commas in the instruction
         int spaceCount = instruction.length() - instruction.replace(" ", "").length();
         int commaCount = instruction.length() - instruction.replace(",", "").length();
@@ -86,7 +82,7 @@ public class InstructionParser {
             throw new IllegalArgumentException("Error in mips instruction syntax, check your commas spaces.");
         }
 
-        String[] registers = this.parseRegisters();
+        String[] registers = this.parseRegisters(instruction);
 
         if(!this.validateRegisters(registers)) {
             throw new IllegalArgumentException("Error in mips registers syntax");
@@ -122,12 +118,12 @@ public class InstructionParser {
         return result;
     }
 
-    private String[] parseRegisters() {
+    private String[] parseRegisters(String instruction) {
         ArrayList<String> registersList = new ArrayList<>();
         String regex = "\\$([\\w\\d]+)";
 
         Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(this.instruction);
+        Matcher matcher = pattern.matcher(instruction);
 
         while (matcher.find()) {
             String register = matcher.group(1);
@@ -137,9 +133,9 @@ public class InstructionParser {
         return registersList.toArray(new String[0]);
     }
 
-    private boolean validateInstructionKeyword() {
+    private boolean validateInstructionKeyword(String instruction) {
         String[] validInstructionKeywords = compiler.getValidKeyWordInstructions();
-        String keywordFromInstruction = this.parseKeyword();
+        String keywordFromInstruction = this.parseKeyword(instruction);
 
         for (int i = 0; i < validInstructionKeywords.length; i++) {
             if (keywordFromInstruction.equals(validInstructionKeywords[i])) {
@@ -149,11 +145,11 @@ public class InstructionParser {
 
         return false; // Keyword is not valid
     }
-    private String parseKeyword() {
-        if(this.instruction.length() == 0 || !this.instruction.contains(" ")) {
-            throw new IllegalArgumentException("Unable to parse keyword in instruction " + this.instruction);
+    private String parseKeyword(String instruction) {
+        if(instruction.length() == 0 || !instruction.contains(" ")) {
+            throw new IllegalArgumentException("Unable to parse keyword in instruction " + instruction);
         }
 
-        return this.instruction.split(" ")[0];
+        return instruction.split(" ")[0];
     }
 }

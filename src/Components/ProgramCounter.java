@@ -7,7 +7,7 @@ public class ProgramCounter {
     Register address;
     RegisterProvider registerProvider;
     int counter;
-    ProgramCounter(Register address, RegisterProvider registerProvider){
+    ProgramCounter(Register address, RegisterProvider registerProvider) {
         this.address = address;
         this.registerProvider = registerProvider;
     }

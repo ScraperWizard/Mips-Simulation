@@ -7,12 +7,19 @@ public class ITypeMipsInstruction extends MipsInstruction {
     private Register sourceAddress;
     private Register targetAddress;
     private String offsetRubishValue;
+    private Command command;
 
-    public ITypeMipsInstruction(int opCode, Register sourceAddress, Register targetAddress, int functionCode) {
+    public ITypeMipsInstruction(int opCode, Register sourceAddress, Register targetAddress, int functionCode, Command command) {
         this.opCode = opCode;
         this.sourceAddress = sourceAddress;
         this.targetAddress = targetAddress;
+        this.command = command;
         this.offsetRubishValue = "00000000000" + functionCode;
+    }
+
+    @Override
+    public Command getCommand() {
+        return command;
     }
 
     @Override

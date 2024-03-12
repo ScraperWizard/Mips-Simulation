@@ -26,8 +26,8 @@ public class InstructionMemory {
 //load instruction into memory
 
 public void loadInstruction(int address, String instructionText) {
-    InstructionParser parser = new InstructionParser(instructionText, compiler, addressProvider);
-    MipsInstruction instruction = parser.parse();
+    InstructionParser parser = new InstructionParser(compiler, addressProvider);
+    MipsInstruction instruction = parser.parse(instructionText);
     //Here i want to check if the address is valid
     if (address >= 0 && address < MEMORY_SIZE) {
         memory[address] = instruction;// otherwise 

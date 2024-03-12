@@ -3,6 +3,8 @@ package Compiler.Register;
 
 import Compiler.Addresses.AddressProvider;
 
+import java.util.Arrays;
+
 public class RegisterProvider {
     private Register[] RegisterArray;
     private AddressProvider addressProvider;
@@ -40,5 +42,22 @@ public class RegisterProvider {
         }
         
         return null;
+    }
+
+    public static void initilizeRegisterValuesFromInput(String input, RegisterProvider registerProvider) {
+        String[] registerInputs = input.split("\n");
+
+        for(int i = 0; i < registerInputs.length; i++) {
+            String register = registerInputs[i].split("=")[0];
+            int value = Integer.parseInt(registerInputs[i].split("=")[1]);
+
+            Register registerToInit = registerProvider.getRegisterByHumanName(register);
+
+            if(registerToInit == null) {
+                throw new Error("Unexpected register in register inputs init");
+            }
+
+            registerToInit.setValue(value);
+        }
     }
 }
