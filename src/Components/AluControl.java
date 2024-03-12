@@ -30,10 +30,12 @@ public class AluControl {
         else if(ALUOp==1)//beq
             operation=6;
         else if(ALUOp==3){
-            if(opCode==13)//or
+            if(opCode==13)//ori
                 operation=1;
-            else if(opCode==12)//and
+            else if(opCode==12)//andi
                 operation=0;
+            else if(opCode==7)//sll
+                operation=8;
             else operation=-1;
         }
         else if(ALUOp==2){//R Type

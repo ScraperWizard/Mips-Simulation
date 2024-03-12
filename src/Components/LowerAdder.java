@@ -32,6 +32,8 @@ public class LowerAdder { //Check https://excalidraw.com/#room=7e7f9e982b6558301
             nor(a,b);
         else if(operation==7)
             slt(a,b);
+        else if(operation==8)
+            sll(a,b);
     }
 
     private void add(int a,int b) {
@@ -63,5 +65,8 @@ public class LowerAdder { //Check https://excalidraw.com/#room=7e7f9e982b6558301
             output= 0;
             System.out.println(a +" is not less than "+b);
         }
+    }
+    private void sll(int a, int b){
+        output= (int) (a*Math.pow(2,b));
     }
 }
