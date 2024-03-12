@@ -36,7 +36,7 @@ public class LowerAdder { //Check https://excalidraw.com/#room=7e7f9e982b6558301
 
     private void add(int a,int b) {
         output = a + b;
-        System.out.println("a=" + a + "b=" + b + "result=" + output);
+        System.out.println("a= " + a + "b= " + b + "result=" + output);
     }
     private  void sub(int a,int b){
         output= a-b;

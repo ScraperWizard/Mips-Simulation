@@ -36,26 +36,25 @@ public class Main {
             String codeInput = codeObject[0];
             String registerInput = codeObject[1];
             String[] splittedString = codeInput.split("\n");
-            ProgramCounter pc = new ProgramCounter();
 
+            RegisterProvider.initilizeRegisterValuesFromInput(registerInput, registerProvider);
 
             for(int i = 0; i < splittedString.length;) {
 
                 try {
-                    RegisterProvider.initilizeRegisterValuesFromInput(registerInput, registerProvider);
                     MipsInstruction mipsInstruction = instructionParser.parse(splittedString[i]);
-
                     printInstructionInfo(mipsInstruction);
                     dataPath.executeInstruction(mipsInstruction);
 
-                    System.out.println("Final result: " + registerProvider.getRegisterByHumanName("$s1").getValue());
 
                     gui.updateRegisterValues();
+                    i=dataPath.programCounter.getCounter()/4;
                 } catch (Exception e) {
                     gui.showNotification(e.getMessage());
                     e.printStackTrace(); // Print the exception details (optional, for debugging)
+                    break;
                 }
-                i=dataPath.programCounter.getCounter()/4;
+
             }
         });
 

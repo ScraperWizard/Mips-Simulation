@@ -47,9 +47,19 @@ public class DataPath {
         this.PCSrc = new Multiplexer("PCsrc", andGate, upperAdd, adder);
     }
 
+
+
     public void executeInstruction(MipsInstruction instruction) {
         if(instruction instanceof JTypeMipsInstruction){
-            JTypeMipsInstruction
+            JTypeMipsInstruction jTypeMipsInstruction = (JTypeMipsInstruction) instruction;
+            if(jTypeMipsInstruction.getOpCode()==3){
+                registerProvider.getRegisterByHumanName("$ra").setValue(programCounter.getCounter()+4);
+            }
+            if(jTypeMipsInstruction.getOpCode()==6){
+                programCounter.setCounter(registerProvider.getRegisterByHumanName("$ra").getValue());
+            }
+            programCounter.setCounter(jTypeMipsInstruction.getAddressToJump());
+            return;
         }
         controlUnit.update(instruction);
         adder.update();
