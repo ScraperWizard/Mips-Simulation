@@ -7,12 +7,17 @@ public class JTypeMipsInstruction extends MipsInstruction {
     private int opcode;
     private int functionCode;
     private Command command;
+    private int addressToJump;
 
-    public JTypeMipsInstruction(int opcode, Register target, int functionCode, Command command) {
+    public JTypeMipsInstruction(int opcode, int functionCode, Command command, int addressToJump) {
         this.opcode = opcode;
-        this.target = target;
         this.functionCode = functionCode;
         this.command = command;
+        this.addressToJump = addressToJump;
+    }
+
+    public int getAddressToJump() {
+        return addressToJump;
     }
 
     @Override

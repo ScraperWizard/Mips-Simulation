@@ -39,8 +39,8 @@ public class Main {
 
             for(int i = 0; i < splittedString.length; i++) {
                 try {
-                    MipsInstruction mipsInstruction = instructionParser.parse(splittedString[i]);
                     RegisterProvider.initilizeRegisterValuesFromInput(registerInput, registerProvider);
+                    MipsInstruction mipsInstruction = instructionParser.parse(splittedString[i]);
 
                     printInstructionInfo(mipsInstruction);
                     dataPath.executeInstruction(mipsInstruction);
@@ -86,13 +86,12 @@ public class Main {
 
         String registerArguments = "[Instruction register arguments";
 
-        registerArguments += " rs=" +
-                "[name=" + instruction.getSourceAddress().getRegisterHumanName()
-                + " value=" +instruction.getSourceAddress().getValue()
-                +   "]";
-
         if(instruction instanceof RTypeMipsInstruction) {
             RTypeMipsInstruction RtypeInstruction  = (RTypeMipsInstruction) instruction;
+            registerArguments += " rs=" +
+                    "[name=" + instruction.getSourceAddress().getRegisterHumanName()
+                    + " value=" +instruction.getSourceAddress().getValue()
+                    +   "]";
 
             registerArguments += " rt=" +
                     "[name=" + instruction.getTargetAddress().getRegisterHumanName()
@@ -106,11 +105,21 @@ public class Main {
 
         if(instruction instanceof ITypeMipsInstruction) {
             ITypeMipsInstruction ItypeInstruction  = (ITypeMipsInstruction) instruction;
+            registerArguments += " rs=" +
+                    "[name=" + instruction.getSourceAddress().getRegisterHumanName()
+                    + " value=" +instruction.getSourceAddress().getValue()
+                    +   "]";
 
             registerArguments += " rt=" +
                     "[name=" + instruction.getTargetAddress().getRegisterHumanName()
                     + " value=" +instruction.getTargetAddress().getValue()
                     +   "]";
+        }
+
+        if(instruction instanceof JTypeMipsInstruction) {
+            JTypeMipsInstruction JtypeInstruction  = (JTypeMipsInstruction) instruction;
+
+            registerArguments += " jumpRegValue=" + JtypeInstruction.getAddressToJump();
         }
 
         registerArguments += "]";
