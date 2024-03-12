@@ -16,7 +16,7 @@ import GUI.GalaxyCompilerV2;
 
 import javax.swing.*;
 
-public class Test2 {
+public class test2 {
     public static void main(String[] args){
 
 
@@ -28,11 +28,6 @@ public class Test2 {
         GUI.setVisible(true);
 
         GUI.executeButton.addActionListener(e -> executeClick(GUI,addressProvider,registerProvider));
-
-
-
-
-
 
     }
 
@@ -86,7 +81,7 @@ public class Test2 {
 
             System.out.println("op code: "+instruction.getOpCode());
             System.out.println("Source Reg: "+ instruction.getSourceAddress().getValue());
-            System.out.println("Target Reg: "+ ((RTypeMipsInstruction)instruction).getTargetAddress().getValue());
+            //System.out.println("Target Reg: "+ ((RTypeMipsInstruction)instruction).getTargetAddress().getValue());
             //stage 1
 
             controlUnit.update(instruction);

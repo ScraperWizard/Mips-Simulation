@@ -3,12 +3,13 @@ package GUI;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.*;
 
 import Compiler.Addresses.AddressProvider;
 import Compiler.Register.Register;
 import Compiler.Register.RegisterProvider;
-
 
 public class GalaxyCompilerV2 extends JFrame {
 
@@ -39,13 +40,12 @@ public class GalaxyCompilerV2 extends JFrame {
         editorPanel.add(editPanelScroll);
 
         //Register value panel to enter the register values etc
-        registerPanel=new JTextArea();
+        registerPanel = new JTextArea();
         registerPanel.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 15));
-        JScrollPane registerPanelScroll= new JScrollPane(registerPanel);
+        JScrollPane registerPanelScroll = new JScrollPane(registerPanel);
         editorPanel.add(registerPanelScroll);
 
-        mainPanel.add(editorPanel,BorderLayout.CENTER);
-
+        mainPanel.add(editorPanel, BorderLayout.CENTER);
 
         // Register table displaying registers, their numbers and values
         String[] columnNames = {"Index", "Register", "Value"};
@@ -56,7 +56,6 @@ public class GalaxyCompilerV2 extends JFrame {
         registerTable = new JTable(data, columnNames);
         JScrollPane registerTableScroll = new JScrollPane(registerTable);
         mainPanel.add(registerTableScroll, BorderLayout.EAST);
-
 
         // Console output for the .asm code
         outputConsole = new JTextArea(10, 40); // Increase dimensions
@@ -96,10 +95,71 @@ public class GalaxyCompilerV2 extends JFrame {
         saveItem.addActionListener(e -> saveFile());
     }
 
+    public static class PopupWindow extends JWindow {
+        private JProgressBar progressBar;
+        private JLabel label;
+        private Timer timer;
+        private int progress = 0;
+        private GalaxyCompilerV2 GUI;
+
+        public PopupWindow(GalaxyCompilerV2 GUI) {
+            this.GUI = GUI;
+            setSize(400, 200);
+            setLocationRelativeTo(null);
+            setVisible(true);
+            initComponents();
+            startTimer();
+        }
+
+        private void initComponents() {
+            //Panel to hold the stuff
+            JPanel popupPanel = new JPanel(new BorderLayout());
+
+            label = new JLabel("Loading GALAXY V.0.0.1......", SwingConstants.CENTER);
+            label.setFont(new Font("Arial", Font.BOLD, 18)); // Change the font and size here
+            label.setForeground(Color.BLUE); // Change the font color here
+            popupPanel.add(label, BorderLayout.NORTH);
+
+            //Le Progress Bar
+            progressBar = new JProgressBar();
+            progressBar.setStringPainted(true);
+            popupPanel.add(progressBar, BorderLayout.CENTER);
+
+            ImageIcon imageIcon = new ImageIcon("galaxy-stars-space-digital-art-4k-wallpaper-pixground.jpg");
+            Image image = imageIcon.getImage().getScaledInstance(400, 200, Image.SCALE_SMOOTH); // Scale the image to fit the popup window dimensions
+            JLabel imageLabel = new JLabel(new ImageIcon(image));
+            popupPanel.add(imageLabel, BorderLayout.SOUTH);
+
+            setContentPane(popupPanel);
+        }
+
+        private void startTimer() {
+            timer = new Timer(100, new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    progress += 10;
+                    progressBar.setValue(progress);
+                    label.setText("Loading GALAXY..." + progress + "%");
+                    if (progress >= 100) {
+                        timer.stop();
+                        dispose();
+                        showMainGUI();
+                    }
+                }
+            });
+
+            timer.start();
+        }
+
+        private void showMainGUI() {
+            GUI.setVisible(true);
+        }
+    }
+
     public void refreshDataTable(Object[][] data) {
         Register[] registerArray = registerProvider.getRegisterArray();
 
-        for(int i = 0; i < registerArray.length; i+=4) {
+        for (int i = 0; i < registerArray.length; i += 4) {
             data[i / 4][0] = i / 4;
             data[i / 4][1] = registerArray[i].getRegisterHumanName();
             data[i / 4][2] = registerArray[i].getValue();
@@ -108,14 +168,14 @@ public class GalaxyCompilerV2 extends JFrame {
     }
 
     public static void main(String[] args) {
+        AddressProvider addressProvider = new AddressProvider();
+        RegisterProvider registerProvider = new RegisterProvider(addressProvider);
+        GalaxyCompilerV2 GUI = new GalaxyCompilerV2(addressProvider, registerProvider);
+
         SwingUtilities.invokeLater(() -> {
-            AddressProvider addressProvider = new AddressProvider();
-            RegisterProvider registerProvider = new RegisterProvider(addressProvider);
-            GalaxyCompilerV2 GUI = new GalaxyCompilerV2(addressProvider, registerProvider);
-            GUI.setVisible(true);
+            new PopupWindow(GUI);
         });
     }
-
 
     //Function to open a .asm file
     private void openFile() {
@@ -140,7 +200,6 @@ public class GalaxyCompilerV2 extends JFrame {
             }
         }
     }
-
 
     //Function to save file to .asm
     private void saveFile() {
@@ -215,5 +274,4 @@ public class GalaxyCompilerV2 extends JFrame {
             }
         }
     }
-
 }
