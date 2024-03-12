@@ -1,3 +1,4 @@
+import Compiler.Addresses.Address;
 import Compiler.Addresses.AddressProvider;
 import Compiler.Register.Register;
 import Compiler.Register.RegisterProvider;
@@ -19,7 +20,7 @@ public class Main {
     public static void main(String[] args) {
         // Initialize all variables needed
         AddressProvider addressProvider = new AddressProvider();
-        RegisterProvider registerProvider = new RegisterProvider(addressProvider);
+        RegisterProvider registerProvider = new RegisterProvider();
         GalaxyCompilerV2 gui = new GalaxyCompilerV2(addressProvider, registerProvider);
 
         // Compiler
@@ -30,9 +31,6 @@ public class Main {
         DataPath dataPath = new DataPath(addressProvider, registerProvider);
 
         gui.launchGui();
-        // add $s1, $s2, $s3
-        // $s2=2
-        // $s3=3
 
         gui.onExecuteCode((String[] codeObject) -> {
             String codeInput = codeObject[0];
@@ -55,6 +53,22 @@ public class Main {
                     e.printStackTrace(); // Print the exception details (optional, for debugging)
                 }
             }
+        });
+
+        gui.onClearRegisters((string) -> {
+            Register[] registerArray = registerProvider.getRegisterArray();
+            Address[] addressArray = addressProvider.getAddressArray();
+
+            for(int i = 0; i < registerArray.length; i++) {
+                registerArray[i].setValue(0);
+            }
+
+            for(int i = 0; i < addressArray.length; i++) {
+                addressArray[i].setValue(0);
+            }
+
+            gui.updateRegisterValues();
+            gui.showNotification("All registers and addresses have been cleared");
         });
     }
 

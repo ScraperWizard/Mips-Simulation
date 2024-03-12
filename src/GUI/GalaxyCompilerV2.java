@@ -21,6 +21,7 @@ public class GalaxyCompilerV2 extends JFrame {
     private RegisterProvider registerProvider;
     private Object[][] tableRegisterData;
     private Consumer<String[]> callbackExecuteCode = null;
+    private Consumer<String> callBackClearRegisters = null;
 
     public GalaxyCompilerV2(AddressProvider addressProvider, RegisterProvider registerProvider) {
         this.addressProvider = addressProvider;
@@ -79,8 +80,8 @@ public class GalaxyCompilerV2 extends JFrame {
         JButton executeButton = new JButton("Execute");
         executeButton.addActionListener(e -> executeCode());
 
-        JButton clearOutputButton = new JButton("Clear Output");
-        clearOutputButton.addActionListener(e -> outputConsole.setText(""));
+        JButton clearOutputButton = new JButton("Clear Registers");
+        clearOutputButton.addActionListener(e -> this.callBackClearRegisters.accept(""));
 
         JPanel buttonPanel = new JPanel();
         buttonPanel.add(executeButton);
@@ -169,6 +170,14 @@ public class GalaxyCompilerV2 extends JFrame {
         }
 
         this.callbackExecuteCode = callbackExecuteCode;
+    }
+
+    public void onClearRegisters(Consumer<String> callBackClearRegisters) {
+        if(this.callBackClearRegisters != null) {
+            return;
+        }
+
+        this.callBackClearRegisters = callBackClearRegisters;
     }
 
     public void updateRegisterValues() {
