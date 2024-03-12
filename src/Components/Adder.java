@@ -11,8 +11,12 @@ public class Adder {
         this.pc = pc;
     }
 
+    public void update() {
+        incrementedAddress();
+    }
+
     public void incrementedAddress(){
         System.out.println("Adder: I returned the address + 4");
-        nextAddress= pc.getCounter() + 4;
+        nextAddress = pc.getCounter() + 4;
     }
 }

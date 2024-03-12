@@ -10,8 +10,7 @@ public class ShiftLeft2 {
         shiftLeftBy2();
     }
     public void shiftLeftBy2(){
-
-        output = signExtend.output*4;
+        output = signExtend.output * 4;
         System.out.println("ShiftLeft2: I returned " +output);
     }
 }

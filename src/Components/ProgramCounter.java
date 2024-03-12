@@ -18,7 +18,6 @@ public class ProgramCounter {
 
     public int getCounter(){
         return counter;
-
     }
 
     public void increment(){

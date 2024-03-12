@@ -12,15 +12,14 @@ public class LowerAdder { //Check https://excalidraw.com/#room=7e7f9e982b6558301
     int output;
 
     public LowerAdder(){}
-
     public void update(AluControl aluControl, RegisterMemory registerMemory, Multiplexer ALUSrcMUX) {
-        this.aluControl= aluControl;
-        this.registerMemory=registerMemory;
-        this.ALUSrcMUX=ALUSrcMUX;
-        this.operation= aluControl.operation;
-        this.a= registerMemory.readData1;
-        this.b=ALUSrcMUX.AddressDestination;
-        zeroFlag=(a==b?1:0);
+        this.aluControl = aluControl;
+        this.registerMemory = registerMemory;
+        this.ALUSrcMUX = ALUSrcMUX;
+        this.operation = aluControl.operation;
+        this.a = registerMemory.readData1;
+        this.b = ALUSrcMUX.AddressDestination;
+        zeroFlag = a == b ? 1: 0;
         if(operation==2)
             add(a,b);
         else if(operation==6)
@@ -35,9 +34,9 @@ public class LowerAdder { //Check https://excalidraw.com/#room=7e7f9e982b6558301
             slt(a,b);
     }
 
-    private void add(int a,int b){
-        output= a+b;
-        System.out.println(output);
+    private void add(int a,int b) {
+        output = a + b;
+        System.out.println("a=" + a + "b=" + b + "result=" + output);
     }
     private  void sub(int a,int b){
         output= a-b;

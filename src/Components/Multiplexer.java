@@ -31,14 +31,26 @@ public class Multiplexer {
 
     }
 
-    public Multiplexer(String humanNickname,ControlUnit controlUnit,RegisterMemory registerMemory,SignExtend signExtend){
-        this.humanNickname="ALUSrcMUX";
-        if(controlUnit.ALUSrc==1)
-            AddressDestination=signExtend.output;
-        else if(controlUnit.ALUSrc==0)
-            AddressDestination=registerMemory.readData2;
-        else AddressDestination=-1;
+    public Multiplexer(String humanNickname, ControlUnit controlUnit, RegisterMemory registerMemory, SignExtend signExtend) {
+        System.out.println("[Multiplexer - ");
+
+        // Print the values of the arguments
+        System.out.println("  humanNickname: " + humanNickname);
+        System.out.println("  controlUnit: " + controlUnit.ALUSrc);
+        System.out.println("  registerMemory: " + registerMemory.readData2);
+        System.out.println("  signExtend: " + signExtend.output);
+
+        this.humanNickname = "ALUSrcMUX";
+
+        // Rest of your constructor logic
+        if (controlUnit.ALUSrc == 1)
+            AddressDestination = signExtend.output;
+        else if (controlUnit.ALUSrc == 0)
+            AddressDestination = registerMemory.readData2;
+        else
+            AddressDestination = -1;
     }
+
 
 //    private void MUXDecider (UpperAdd givenUpperAdd, Adder givenAdder){
 //        if(humanNickname.equalsIgnoreCase("PCSrc")){

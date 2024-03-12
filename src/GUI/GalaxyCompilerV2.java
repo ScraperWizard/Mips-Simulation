@@ -172,15 +172,17 @@ public class GalaxyCompilerV2 extends JFrame {
     }
 
     public void updateRegisterValues() {
-        Register[] registerArray = registerProvider.getRegisterArray();
+        SwingUtilities.invokeLater(() -> {
+            Register[] registerArray = registerProvider.getRegisterArray();
 
-        for (int i = 0; i < registerArray.length; i += 4) {
-            tableRegisterData[i / 4][0] = i / 4;
-            tableRegisterData[i / 4][1] = registerArray[i].getRegisterHumanName();
-            tableRegisterData[i / 4][2] = registerArray[i].getValue();
-        }
+            for (int i = 0; i < registerArray.length; i += 4) {
+                tableRegisterData[i / 4][0] = i / 4;
+                tableRegisterData[i / 4][1] = registerArray[i].getRegisterHumanName();
+                tableRegisterData[i / 4][2] = registerArray[i].getValue();
+            }
 
-        this.registerTable.repaint();
+            this.registerTable.repaint();
+        });
     }
 
     //Function to open a .asm file

@@ -37,20 +37,25 @@ public class InstructionParser {
         Command instructionCommand = this.compiler.getCommandByName(this.parseKeyword(instruction));
 
         if(typeOfInstruction == InstructionType.Rtype) {
-            Register sourceAddress = addressProvider.getRegisterByHumanName(registersInInstruction[0]);
-            Register targetAddress = addressProvider.getRegisterByHumanName(registersInInstruction[1]);
-            Register destinationAddress = addressProvider.getRegisterByHumanName(registersInInstruction[2]);
+            Register destinationAddress = addressProvider.getRegisterByHumanName(registersInInstruction[0]);
+            Register sourceAddress = addressProvider.getRegisterByHumanName(registersInInstruction[1]);
+            Register targetAddress = addressProvider.getRegisterByHumanName(registersInInstruction[2]);
             return new RTypeMipsInstruction(opCodeOfInstruction, sourceAddress, targetAddress, destinationAddress, 0, functionCodeOfInstruction, instructionCommand);
         } else if(typeOfInstruction == InstructionType.Itype) {
-            Register sourceAddress = addressProvider.getRegisterByHumanName(registersInInstruction[0]);
-            Register targetAddress = addressProvider.getRegisterByHumanName(registersInInstruction[1]);
-            return new ITypeMipsInstruction(opCodeOfInstruction, sourceAddress, targetAddress, functionCodeOfInstruction, instructionCommand);
+            Register sourceAddress = addressProvider.getRegisterByHumanName(registersInInstruction[1]);
+            Register targetAddress = addressProvider.getRegisterByHumanName(registersInInstruction[0]);
+            int constantValue = getConstantValueIInstruction(instruction);
+            return new ITypeMipsInstruction(opCodeOfInstruction, sourceAddress, targetAddress, functionCodeOfInstruction, instructionCommand, constantValue);
         } else if(typeOfInstruction == InstructionType.Jtype) {
             Register targetAddress = addressProvider.getRegisterByHumanName(registersInInstruction[1]);
             return new JTypeMipsInstruction(opCodeOfInstruction, targetAddress, functionCodeOfInstruction, instructionCommand);
         };
 
         throw new IllegalArgumentException("Unsupported mips instruction type");
+    }
+
+    private int getConstantValueIInstruction(String instruction) {
+        return Integer.parseInt(instruction.split(", ")[2]);
     }
 
     private int getInstructionOpCode(String instruction) {

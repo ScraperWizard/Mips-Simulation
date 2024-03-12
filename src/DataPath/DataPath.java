@@ -27,6 +27,8 @@ public class DataPath {
     private AluControl aluControl;
 
     public DataPath(AddressProvider addressProvider, RegisterProvider registerProvider) {
+        this.addressProvider = addressProvider;
+        this.registerProvider = registerProvider;
         this.programCounter = new ProgramCounter();
         programCounter.setCounter(0);
 
@@ -45,23 +47,22 @@ public class DataPath {
         this.PCSrc = new Multiplexer("PCsrc", andGate, upperAdd, adder);
     }
 
-    private void executeInstruction(RTypeMipsInstruction instruction) {
+    public void executeInstruction(MipsInstruction instruction) {
         controlUnit.update(instruction);
+        adder.update();
         registerMemory.readFromRegisters(instruction);
         signExtend.update(instruction);
-        aluControl.update(controlUnit,instruction);
+        Multiplexer ALUSrc = new Multiplexer("ALUSrc",controlUnit,registerMemory,signExtend);
+        aluControl.update(controlUnit, instruction);
         shiftLeft2.update(signExtend);
-        lowerAdder.update(aluControl,registerMemory,ALUSrc);
+        lowerAdder.update(aluControl, registerMemory, ALUSrc);
         upperAdd.update(shiftLeft2, adder);
-        dataMemory.update(controlUnit,lowerAdder,registerMemory,addressProvider);
+        andGate.update();
+        dataMemory.update(controlUnit, lowerAdder, registerMemory, addressProvider);
+        Multiplexer MemToReg = new Multiplexer("MemToReg", controlUnit,lowerAdder, dataMemory);
+        Multiplexer PCSrc = new Multiplexer("PCsrc", andGate, upperAdd, adder);
         registerMemory.update(MemToReg,controlUnit);
         registerMemory.writeToRegister();
         programCounter.setCounter(PCSrc.AddressDestination);
-    }
-
-    public void executeInstruction(MipsInstruction instruction) {
-        if(instruction instanceof RTypeMipsInstruction) {
-            this.executeInstruction((RTypeMipsInstruction) instruction);
-        }
     }
 }

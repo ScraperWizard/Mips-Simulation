@@ -27,7 +27,6 @@ public class RegisterMemory {
     public void update(Multiplexer memToReg,ControlUnit controlUnit){
         this.memToReg = memToReg;
         this.controlUnit = controlUnit;
-
     }
 
     public void readFromRegisters(MipsInstruction instruction) {
@@ -42,6 +41,11 @@ public class RegisterMemory {
         this.readData1 = instruction.getSourceAddress().getValue();
         this.readData2 = instruction.getTargetAddress().getValue();
         this.readData2Register = instruction.getTargetAddress();
+
+        System.out.println("[RegisterMemory: Reading from" +
+                "source register=" + instruction.getSourceAddress().getRegisterHumanName() + " value=" + this.readData1
+                + "target register=" + instruction.getTargetAddress().getRegisterHumanName() + " value=" + this.readData2
+                + "]");
     }
 
     public void readFromRegisters(ITypeMipsInstruction instruction) {
@@ -52,6 +56,7 @@ public class RegisterMemory {
 
     // Method to write data to register
     public void writeToRegister(RTypeMipsInstruction instruction) {
+        System.out.println("[RegisterMemory: Writing to register=" + instruction.getDestinationAddress().getValue() +  "Value= " + memToReg.AddressDestination + "]");
         instruction.getDestinationAddress().setValue(memToReg.AddressDestination);
     }
 

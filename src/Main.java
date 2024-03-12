@@ -30,9 +30,9 @@ public class Main {
         DataPath dataPath = new DataPath(addressProvider, registerProvider);
 
         gui.launchGui();
-        // add $s3, $s1, $s2
-        // $s1=2
-        // $s2=3
+        // add $s1, $s2, $s3
+        // $s2=2
+        // $s3=3
 
         gui.onExecuteCode((String[] codeObject) -> {
             String codeInput = codeObject[0];
@@ -42,10 +42,12 @@ public class Main {
             for(int i = 0; i < splittedString.length; i++) {
                 try {
                     MipsInstruction mipsInstruction = instructionParser.parse(splittedString[i]);
-                    printInstructionInfo(mipsInstruction);
-
                     RegisterProvider.initilizeRegisterValuesFromInput(registerInput, registerProvider);
-//                    dataPath.executeInstruction(mipsInstruction);
+
+                    printInstructionInfo(mipsInstruction);
+                    dataPath.executeInstruction(mipsInstruction);
+
+                    System.out.println("Final result: " + registerProvider.getRegisterByHumanName("$s1").getValue());
 
                     gui.updateRegisterValues();
                 } catch (Exception e) {
