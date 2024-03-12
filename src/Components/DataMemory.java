@@ -39,7 +39,8 @@ public class DataMemory {
             addressProvider.getAddressAtIndex(lowerAdderOutput).setValue(registerMemory.readData2);
             System.out.println("sw instruction, setting value " + registerMemory.readData2 + " in address " + lowerAdderOutput);
         } else if(memoryRead==1 && memoryWrite==0) {
-            System.out.println("LW Instruction, so readData = address");
+            System.out.println("[DataMemory LW Instruction, lowerAdderOutput=" + lowerAdderOutput + " addressProviderAddressId=" +
+                    addressProvider.getAddressAtIndex(lowerAdderOutput).getAddressId());
             valueAtReadData = addressProvider.getAddressAtIndex(lowerAdderOutput).getValue();
         }
         else{

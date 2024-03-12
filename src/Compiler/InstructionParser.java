@@ -42,9 +42,10 @@ public class InstructionParser {
             Register targetAddress = addressProvider.getRegisterByHumanName(registersInInstruction[2]);
             return new RTypeMipsInstruction(opCodeOfInstruction, sourceAddress, targetAddress, destinationAddress, 0, functionCodeOfInstruction, instructionCommand);
         } else if(typeOfInstruction == InstructionType.Itype) {
+            int constantValue = getConstantValueIInstruction(instruction);
             Register sourceAddress = addressProvider.getRegisterByHumanName(registersInInstruction[1]);
             Register targetAddress = addressProvider.getRegisterByHumanName(registersInInstruction[0]);
-            int constantValue = getConstantValueIInstruction(instruction);
+
             return new ITypeMipsInstruction(opCodeOfInstruction, sourceAddress, targetAddress, functionCodeOfInstruction, instructionCommand, constantValue);
         } else if(typeOfInstruction == InstructionType.Jtype) {
             Register targetAddress = addressProvider.getRegisterByHumanName(registersInInstruction[1]);
@@ -55,7 +56,13 @@ public class InstructionParser {
     }
 
     private int getConstantValueIInstruction(String instruction) {
-        return Integer.parseInt(instruction.split(", ")[2]);
+        if(!instruction.contains("(")) {
+            return Integer.parseInt(instruction.split(", ")[2]);
+        } else {
+            String s1 = instruction.split(",")[1];
+            String s2 = s1.split("\\(")[0];
+            return Integer.parseInt(s2.split("")[1]);
+        }
     }
 
     private int getInstructionOpCode(String instruction) {
