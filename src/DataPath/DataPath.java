@@ -12,7 +12,7 @@ public class DataPath {
     private AddressProvider addressProvider;
     private RegisterProvider registerProvider;
     private Adder adder;
-    private ProgramCounter programCounter;
+    public ProgramCounter programCounter;
     private LowerAdder lowerAdder;
     private ControlUnit controlUnit;
     private RegisterMemory registerMemory;
@@ -48,6 +48,9 @@ public class DataPath {
     }
 
     public void executeInstruction(MipsInstruction instruction) {
+        if(instruction instanceof JTypeMipsInstruction){
+            JTypeMipsInstruction
+        }
         controlUnit.update(instruction);
         adder.update();
         registerMemory.readFromRegisters(instruction);
@@ -60,9 +63,9 @@ public class DataPath {
         andGate.update();
         dataMemory.update(controlUnit, lowerAdder, registerMemory, addressProvider);
         Multiplexer MemToReg = new Multiplexer("MemToReg", controlUnit,lowerAdder, dataMemory);
-        Multiplexer PCSrc = new Multiplexer("PCsrc", andGate, upperAdd, adder);
         registerMemory.update(MemToReg,controlUnit);
         registerMemory.writeToRegister();
+        Multiplexer PCSrc = new Multiplexer("PCsrc", andGate, upperAdd, adder);
         programCounter.setCounter(PCSrc.AddressDestination);
     }
 }

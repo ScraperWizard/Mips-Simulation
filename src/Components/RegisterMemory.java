@@ -65,8 +65,10 @@ public class RegisterMemory {
     }
 
     public void writeToRegister() {
-
-        if(controlUnit.MemToReg== 0) {
+        if(controlUnit.RegWrite==0){
+            return;
+        }
+        else if(controlUnit.MemToReg== 0) {
             System.out.println(" Value from ALU:"+memToReg.AddressDestination);
             if(controlUnit.getInstruction() instanceof RTypeMipsInstruction) {
                 RTypeMipsInstruction instruction = (RTypeMipsInstruction) controlUnit.getInstruction();
@@ -78,7 +80,10 @@ public class RegisterMemory {
 
                 instruction.getTargetAddress().setValue(memToReg.AddressDestination);
             }
-        } else {
+        } else if(controlUnit.MemToReg==1) {
+            ITypeMipsInstruction instruction = (ITypeMipsInstruction) controlUnit.getInstruction();
+            instruction.getTargetAddress().setValue(memToReg.AddressDestination);
+
             //todo
 
         }

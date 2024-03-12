@@ -36,8 +36,11 @@ public class Main {
             String codeInput = codeObject[0];
             String registerInput = codeObject[1];
             String[] splittedString = codeInput.split("\n");
+            ProgramCounter pc = new ProgramCounter();
 
-            for(int i = 0; i < splittedString.length; i++) {
+
+            for(int i = 0; i < splittedString.length;) {
+
                 try {
                     MipsInstruction mipsInstruction = instructionParser.parse(splittedString[i]);
                     RegisterProvider.initilizeRegisterValuesFromInput(registerInput, registerProvider);
@@ -52,6 +55,7 @@ public class Main {
                     gui.showNotification(e.getMessage());
                     e.printStackTrace(); // Print the exception details (optional, for debugging)
                 }
+                i=dataPath.programCounter.getCounter()/4;
             }
         });
 
