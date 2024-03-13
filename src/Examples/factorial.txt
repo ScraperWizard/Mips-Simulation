@@ -1,0 +1,16 @@
+# Generate the factorial of 8
+
+Code:
+
+loop:
+slt $t1, $s1, $s3
+beq $t1, $0, exit
+mult $s2, $s2, $s1
+addi $s1, $s1, 1
+j loop
+exit:
+
+Initial values:
+$s1=1
+$s2=1
+$s3=9
