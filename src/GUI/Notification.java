@@ -23,7 +23,7 @@ public class Notification extends JDialog {
         add(closeButton, BorderLayout.SOUTH);
 
         // Set size and location
-        setSize(100, 50);
+        setSize(500, 200);
         setLocationRelativeTo(parent);
     }
 }
