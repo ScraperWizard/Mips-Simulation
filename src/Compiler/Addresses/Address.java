@@ -8,7 +8,7 @@ public class Address {
 
     public Address(int addressId) {
         this.addressId = addressId;
-        this.value = 0;
+        this.value = Integer.MAX_VALUE;
     }
 
     public int getValue() {

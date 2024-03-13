@@ -40,16 +40,6 @@ public class Main {
             String[] splittedString = codeInput.split("\n");
             HashMap<String, Integer> map = new HashMap<String, Integer>();
 
-//j add
-//sub:
-//sub $s1, $s1, $s4
-//j exit
-//add:
-//add $s1, $s2, $s3
-//j sub
-//exit:
-//exit2:
-
             // Loop over all code, and search for labels
             for(int i = 0; i < splittedString.length; i++) {
                 if(splittedString[i].contains(":") && splittedString[i].split(" ").length == 1) {
@@ -62,22 +52,23 @@ public class Main {
 
             RegisterProvider.initilizeRegisterValuesFromInput(registerInput, registerProvider);
 
-            for(int i = 0; i < splittedString.length;) {
+            for(int i = 0; i < splittedString.length; i++)  {
+                if(splittedString[i].contains(":")) {
+                    continue;
+                }
 
                 try {
                     MipsInstruction mipsInstruction = instructionParser.parse(splittedString[i]);
                     printInstructionInfo(mipsInstruction);
                     dataPath.executeInstruction(mipsInstruction);
 
-
                     gui.updateRegisterValues();
-                    i=dataPath.programCounter.getCounter()/4;
+                    i=dataPath.programCounter.getCounter() / 4 - 1;
                 } catch (Exception e) {
                     gui.showNotification(e.getMessage());
                     e.printStackTrace(); // Print the exception details (optional, for debugging)
                     break;
                 }
-
             }
         });
 

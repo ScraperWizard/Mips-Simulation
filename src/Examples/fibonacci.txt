@@ -1,0 +1,26 @@
+# Generate the first 10 numbers of the Fibonacci series
+
+Code:
+
+add $s1, $s7, $s7
+addi $s2, $s7, 10
+addi $s3, $s7, 1
+addi $s4, $s7, 0
+loop:
+slt $t1, $s4, $s2
+beq $t1, $s7, exit
+add $s5, $s1, $s3
+add $s1, $s3, $s7
+add $s3, $s5, $s7
+addi $s4, $s4, 1
+j loop
+exit:
+
+Initial values:
+
+$s1=0
+$s2=10
+$s3=1
+$s4=0
+$s5=0
+$s7=0
