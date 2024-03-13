@@ -55,7 +55,7 @@ public class DataPath {
             if(jTypeMipsInstruction.getOpCode()==3){
                 registerProvider.getRegisterByHumanName("$ra").setValue(programCounter.getCounter()+4);
             }
-            if(jTypeMipsInstruction.getOpCode()==6){
+            else if(jTypeMipsInstruction.getOpCode()==6){
                 programCounter.setCounter(registerProvider.getRegisterByHumanName("$ra").getValue());
             }
             programCounter.setCounter(jTypeMipsInstruction.getAddressToJump());

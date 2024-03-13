@@ -134,6 +134,18 @@ public class ControlUnit {
             Branch = 0;
             ALUOp = 0;
         }
+        else if( OPCODE ==7){
+            System.out.println("ControlUnit: I chose SLL control unit");
+            RegDst = 0;
+            ALUSrc = 1;
+            MemToReg = 0;
+            RegWrite = 1;
+            MemRead = 0;
+            MemWrite = 0;
+            Branch = 0;
+            ALUOp = 3;
+
+        }
 
     }
 

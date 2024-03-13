@@ -18,10 +18,10 @@ public class AndGate {
         int Branch2 = controlUnit.Branch;
         int zeroFlag2 = lowerAdder.zeroFlag;
 
-        if(Branch2*zeroFlag2 == 0){
-            controlUnitForPCSrc = 0;
-        } else if (Branch2*zeroFlag2 == 1){
-            controlUnitForPCSrc = 1;
-        }
+        controlUnitForPCSrc=Branch2*zeroFlag2;
+
+        System.out.println("And Gate:");
+        System.out.println(" Output is: "+controlUnitForPCSrc);
     }
+
 }

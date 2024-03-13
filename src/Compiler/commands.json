@@ -37,9 +37,9 @@
   },
   {
     "name": "sll",
-    "type": "R",
-    "op": 0,
-    "func": 0
+    "type": "I",
+    "op": 7,
+      "func": 0
   },
   {
     "name": "slt",

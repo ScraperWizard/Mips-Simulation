@@ -23,17 +23,18 @@ public class AluControl {
     }
 
     public void getOperation(int ALUOp){
-        System.out.println("ALU op is: "+ ALUOp);
-        //missing addi, andi, ori,sll
+
         if(ALUOp==0)//sw,lw,addi
             operation=2;
         else if(ALUOp==1)//beq
             operation=6;
         else if(ALUOp==3){
-            if(opCode==13)//or
+            if(opCode==13)//ori
                 operation=1;
-            else if(opCode==12)//and
+            else if(opCode==12)//andi
                 operation=0;
+            else if(opCode==7)//sll
+                operation=8;
             else operation=-1;
         }
         else if(ALUOp==2){//R Type
@@ -49,12 +50,14 @@ public class AluControl {
                 operation=12;
             else if(functionCode==42)//slt
                 operation=7;
+            else if(functionCode==24)
+                operation=
             else
                 operation=-1;
         }
         else operation=-1;
-
-        System.out.println("operation is: "+operation);
+        System.out.println("ALU CONTROL:");
+        System.out.println(" output is: "+operation);
         return;
     }
 }
