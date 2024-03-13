@@ -19,6 +19,7 @@ public class LowerAdder { //Check https://excalidraw.com/#room=7e7f9e982b6558301
         this.operation = aluControl.operation;
         this.a = registerMemory.readData1;
         this.b = ALUSrcMUX.AddressDestination;
+
         zeroFlag = a == b ? 1: 0;
         if(operation==2)
             add(a,b);

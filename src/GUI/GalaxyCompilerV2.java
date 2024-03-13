@@ -217,8 +217,11 @@ public class GalaxyCompilerV2 extends JFrame {
     public void updateMemoryLocationValues() {
         SwingUtilities.invokeLater(() -> {
             for (int i = 0; i < memoryLocationData.length; i++) {
-                memoryLocationData[i][0] = String.format("0x%08X", addressProvider.getAddressByShifted(i).getValue());
-                memoryLocationData[i][1] = "0x00000000"; // Initialize with a default value
+                memoryLocationData[i][0] = i;
+                if(addressProvider.getAddressAtIndex(i).getValue()==Integer.MAX_VALUE)
+                    memoryLocationData[i][1]="NULL";
+                else
+                memoryLocationData[i][1] = addressProvider.getAddressAtIndex(i).getValue();
             }
             memoryLocationTable.repaint();
         });

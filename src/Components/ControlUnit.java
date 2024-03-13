@@ -74,6 +74,18 @@ public class ControlUnit {
             Branch = 1;
             ALUOp = 1;
         }
+        else if( OPCODE == 5){
+            System.out.println("ControlUnit: I chose bne control unit");
+            RegDst = 0;
+            ALUSrc = 0;
+            MemToReg = 0;
+            RegWrite = 0;
+            MemRead = 0;
+            MemWrite = 0;
+            Branch = 1;
+            ALUOp = 1;
+        }
+
         // addi --> PLEASE DOUBLE-CHECK  the control units
         else if(OPCODE == 8){
             System.out.println("ControlUnit: I chose addi control unit");

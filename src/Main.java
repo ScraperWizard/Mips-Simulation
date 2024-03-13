@@ -68,6 +68,7 @@ public class Main {
                     dataPath.executeInstruction(mipsInstruction);
 
                     gui.updateRegisterValues();
+                    gui.updateMemoryLocationValues();
                     i=dataPath.programCounter.getCounter() / 4 - 1;
                 } catch (Exception e) {
                     gui.showNotification(e.getMessage());

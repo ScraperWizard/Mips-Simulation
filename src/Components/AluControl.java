@@ -26,8 +26,10 @@ public class AluControl {
 
         if(ALUOp==0)//sw,lw,addi
             operation=2;
-        else if(ALUOp==1)//beq
+        else if(ALUOp==1&&opCode==4)//beq
             operation=6;
+        else if(ALUOp==1&&opCode==5)//bne
+            operation=9;
         else if(ALUOp==3){
             if(opCode==13)//ori
                 operation=1;
