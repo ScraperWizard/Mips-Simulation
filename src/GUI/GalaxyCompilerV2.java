@@ -249,38 +249,7 @@ public class GalaxyCompilerV2 extends JFrame {
         String code = editPanel.getText();
         String registers = registerPanel.getText();
         this.callbackExecuteCode.accept(new String[]{code, registers});
-//        try {
-//            Process process = Runtime.getRuntime().exec("mips-compiler");
-//            BufferedReader inputReader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-//            BufferedReader errorReader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
-//
-//            // Write code to process's input stream
-//            process.getOutputStream().write(code.getBytes());
-//            process.getOutputStream().flush();
-//
-//            // Read output and error streams
-//            String line;
-//            StringBuilder output = new StringBuilder();
-//            StringBuilder error = new StringBuilder();
-//            while ((line = inputReader.readLine()) != null) {
-//                output.append(line).append("\n");
-//                updateRegisterTable(line);
-//            }
-//            while ((line = errorReader.readLine()) != null) {
-//                error.append(line).append("\n");
-//            }
-//
-//            // Update console output
-//            outputConsole.setText(output.toString());
-//
-//            // Wait for the process to complete
-//            int exitCode = process.waitFor();
-//            if (exitCode != 0) {
-//                outputConsole.append("Execution failed with exit code " + exitCode);
-//            }
-//        } catch (IOException | InterruptedException e) {
-//            e.printStackTrace();
-//        }
+
     }
 
     private void updateRegisterTable(String line) {
