@@ -17,9 +17,11 @@ public class GalaxyCompilerV2 extends JFrame {
     private JTextArea registerPanel;
     private JTextArea outputConsole;
     private JTable registerTable;
+    private JTable memoryLocationTable;
     private AddressProvider addressProvider;
     private RegisterProvider registerProvider;
     private Object[][] tableRegisterData;
+    private Object[][] memoryLocationData;
     private Consumer<String[]> callbackExecuteCode = null;
     private Consumer<String> callBackClearRegisters = null;
 
@@ -27,6 +29,7 @@ public class GalaxyCompilerV2 extends JFrame {
         this.addressProvider = addressProvider;
         this.registerProvider = registerProvider;
         this.tableRegisterData = new Object[32][3];
+        this.memoryLocationData = new Object[100][2];
 
         setTitle("MIPS GALAXY V.0.0.1");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -35,6 +38,7 @@ public class GalaxyCompilerV2 extends JFrame {
 
         // Main Panel with border layout and stuff
         JPanel mainPanel = new JPanel(new BorderLayout());
+
         //Assembly code panel and register value panel
         JPanel editorPanel = new JPanel(new GridLayout(1, 2));
 
@@ -52,21 +56,36 @@ public class GalaxyCompilerV2 extends JFrame {
 
         mainPanel.add(editorPanel, BorderLayout.CENTER);
 
-        // Register table displaying registers, their numbers and values
-        String[] columnNames = { "Index", "Register", "Value" };
-
-        registerTable = new JTable(this.tableRegisterData, columnNames);
-        JScrollPane registerTableScroll = new JScrollPane(registerTable);
-        mainPanel.add(registerTableScroll, BorderLayout.EAST);
-
-        updateRegisterValues();
-
         // Console output for the .asm code
-        outputConsole = new JTextArea(10, 40); // Increase dimensions
+        outputConsole = new JTextArea(10, 40);
         outputConsole.setEditable(false);
         outputConsole.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 12));
         JScrollPane outputConsoleScroll = new JScrollPane(outputConsole);
         mainPanel.add(outputConsoleScroll, BorderLayout.SOUTH);
+
+        // Register table and memory location table in separate tabs
+        JTabbedPane tableTabs = new JTabbedPane();
+
+        // Register table panel
+        String[] columnNames = {"Index", "Register", "Value"};
+        registerTable = new JTable(this.tableRegisterData, columnNames);
+        JScrollPane registerTableScroll = new JScrollPane(registerTable);
+        JPanel registerTablePanel = new JPanel(new BorderLayout());
+        registerTablePanel.add(registerTableScroll, BorderLayout.CENTER);
+        tableTabs.addTab("Registers", registerTablePanel);
+
+        // Memory location table panel for the 100 memory locations
+        String[] memoryColumnNames = {"Address", "Value"};
+        memoryLocationTable = new JTable(memoryLocationData, memoryColumnNames);
+        JScrollPane memoryLocationTableScroll = new JScrollPane(memoryLocationTable);
+        JPanel memoryLocationTablePanel = new JPanel(new BorderLayout());
+        memoryLocationTablePanel.add(memoryLocationTableScroll, BorderLayout.CENTER);
+        tableTabs.addTab("Memory Locations", memoryLocationTablePanel);
+
+        mainPanel.add(tableTabs, BorderLayout.EAST);
+
+        updateRegisterValues();
+        updateMemoryLocationValues();
 
         // Menu Bar and Buttons
         JMenuBar menuBar = new JMenuBar();
@@ -103,6 +122,7 @@ public class GalaxyCompilerV2 extends JFrame {
             super.setVisible(true);
         });
     }
+
     public static class PopupWindow extends JWindow {
         private JProgressBar progressBar;
         private JLabel label;
@@ -191,6 +211,16 @@ public class GalaxyCompilerV2 extends JFrame {
             }
 
             this.registerTable.repaint();
+        });
+    }
+
+    public void updateMemoryLocationValues() {
+        SwingUtilities.invokeLater(() -> {
+            for (int i = 0; i < memoryLocationData.length; i++) {
+                memoryLocationData[i][0] = String.format("0x%08X", addressProvider.getAddressByShifted(i).getValue());
+                memoryLocationData[i][1] = "0x00000000"; // Initialize with a default value
+            }
+            memoryLocationTable.repaint();
         });
     }
 
