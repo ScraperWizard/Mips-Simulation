@@ -50,6 +50,8 @@ public class AluControl {
                 operation=12;
             else if(functionCode==42)//slt
                 operation=7;
+            else if(functionCode==24)
+                operation=
             else
                 operation=-1;
         }

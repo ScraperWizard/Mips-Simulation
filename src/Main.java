@@ -23,6 +23,11 @@ public class Main {
         AddressProvider addressProvider = new AddressProvider();
         RegisterProvider registerProvider = new RegisterProvider();
         GalaxyCompilerV2 gui = new GalaxyCompilerV2(addressProvider, registerProvider);
+            int sum=0;
+            for(int i=0;i<10;i++){
+                sum+=i;
+            }
+        System.out.println(sum);
 
         // Compiler
         Compiler mipsCompiler = new Compiler();

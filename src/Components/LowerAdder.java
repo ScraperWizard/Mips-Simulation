@@ -34,11 +34,17 @@ public class LowerAdder { //Check https://excalidraw.com/#room=7e7f9e982b6558301
             slt(a,b);
         else if(operation==8)
             sll(a,b);
+        else if(operation==3)
+            mult(a,b);
     }
 
     private void add(int a,int b) {
         output = a + b;
         System.out.println(a + " + " + b + " = " + output);
+    }
+    private  void mult(int a, int b){
+        output= a*b;
+        System.out.println(a+ " x "+ b + " = "+ output);
     }
     private  void sub(int a,int b){
         output= a-b;
